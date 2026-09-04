@@ -1,0 +1,558 @@
+id="page-eservice-ekyc">
+          <header class="hero">
+            <div class="hero-tags"><span class="hero-tag">DSC Securities</span><span class="hero-tag">EService</span><span class="hero-tag">Core Flex</span><span class="hero-tag">eKYC Onboarding</span></div>
+            <h1>Báo Cáo Mở TKGDCK Qua eKYC</h1>
+            <p>Theo dõi số lượng mở tài khoản định danh điện tử eKYC, tỷ lệ phê duyệt tự động, luồng xác thực khuôn mặt / CCCD gắn chip và thời gian xử lý hồ sơ.</p>
+          </header>
+          <section class="section-block">
+            <div class="section-header"><h2>THÔNG TIN BÁO CÁO: MỞ TÀI KHOẢN GIAO DỊCH CHỨNG KHOÁN QUA EKYC</h2><span class="section-header-badge">CORE FLEX</span></div>
+            <div class="section-body"><div class="dynamic-ui-box"><div class="dynamic-ui-item"><span class="dynamic-ui-label">Hệ thống nguồn:</span><span>mart_mkt.vw_register_tracking, realtime.cfmast, realtime.core_registeronline</span></div><div class="dynamic-ui-item"><span class="dynamic-ui-label">Đối tượng:</span><span>Khách hàng cá nhân trong nước &amp; quốc tế đăng ký mở TKGDCK qua eKYC</span></div><div class="dynamic-ui-item"><span class="dynamic-ui-label">Workbook Tableau:</span><code>Prod_Eservice_Báo cáo mở tài khoản qua eKYC v2.1.twb</code></div><div class="dynamic-ui-item"><span class="dynamic-ui-label">Trạng thái:</span><span class="pill pill-success">COMPLETE</span></div>
+              <!-- ĐẶC TẢ GIAO DIỆN & CẤU TRÚC BÁO CÁO (ESERVICE) -->
+              <div style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                  <span>📐 Đặc Tả Giao Diện &amp; Layout Visual (Khối Dịch Vụ Số - EService)</span>
+                </h3>
+
+                <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem;">
+                  <!-- Card Chỉ số -->
+                  <div class="kpi-card" style="border-left: 3px solid #3b82f6; background: var(--bg-surface-elevated);">
+                    <div class="kpi-title" style="color: #3b82f6; font-weight: 700;">Thẻ Chỉ Số eKYC (Card KPIs)</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Tổng hồ sơ eKYC:</strong> Số lượng người dùng bắt đầu quy trình mở tài khoản qua App/Web.</li>
+                      <li><strong>Số TK mở thành công:</strong> Số lượng tài khoản vượt qua eKYC và sinh số CUSTID hợp lệ.</li>
+                      <li><strong>Tỷ lệ kích hoạt (%):</strong> Tỷ lệ người dùng hoàn tất eKYC và kích hoạt dịch vụ thành công.</li>
+                      <li><strong>Tỷ lệ duyệt tự động (%):</strong> Tỷ lệ hồ sơ được AI/OCR tự động phê duyệt không cần can thiệp thủ công.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Breakdown -->
+                  <div class="kpi-card" style="border-left: 3px solid #10b981; background: var(--bg-surface-elevated);">
+                    <div class="kpi-title" style="color: #10b981; font-weight: 700;">Phân Rã Dữ Liệu (Breakdown)</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Theo kênh tiếp thị &amp; nguồn mở:</strong> Kênh số (Digital/Organic, MKT Ads, Giới thiệu MG, Đối tác TVS).</li>
+                      <li><strong>Theo thiết bị &amp; Hệ điều hành:</strong> Tỷ lệ phân bổ giữa iOS vs Android vs Web Portal.</li>
+                      <li><strong>Theo phân loại lỗi eKYC:</strong> Lỗi OCR CCCD (mờ/lóa/mất góc), Lỗi FaceMatch (&lt; 80%), Lỗi Liveness.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Biểu đồ -->
+                  <div class="kpi-card" style="border-left: 3px solid #8b5cf6; background: var(--bg-surface-elevated);">
+                    <div class="kpi-title" style="color: #8b5cf6; font-weight: 700;">Hệ Thống Biểu Đồ Phễu &amp; Xu Hướng</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Phễu chuyển đổi (Funnel eKYC):</strong> Truy cập &rarr; Nhập SĐT/OTP &rarr; Chụp CCCD &rarr; Quét khuôn mặt Liveness &rarr; Ký eContract &rarr; Mở thành công.</li>
+                      <li><strong>Xu hướng mở mới theo ngày &amp; giờ:</strong> Biểu đồ đường nhận diện khung giờ cao điểm mở tài khoản trong ngày.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div></div></div>
+          </section>
+
+          <!-- 1. Phân loại Kênh Mở & Kích hoạt TKGDCK -->
+          <article class="formula-card" id="eservice-ekyc-1" data-domain="EService" data-status="COMPLETE">
+            <div class="formula-title">
+              <div class="formula-title-left">
+                <span class="metric-id-pill">METRIC_EKYC_PLATFORM_CHANNEL</span>
+                <h3>1. Phân loại Kênh Mở &amp; Kích hoạt TKGDCK (App / Web)</h3>
+              </div>
+              <div class="formula-badges">
+                <span class="pill pill-success">COMPLETE</span>
+                <span class="formula-badge">Category Mapping</span>
+              </div>
+            </div>
+            <div class="metric-tabs">
+              <button class="metric-tab-btn active" onclick="switchMetricTab('eservice-ekyc-1', 'math')">Nghiệp Vụ &amp; Visual</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'data')">Data &amp; Mapping</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'dax')">Power BI DAX</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'tableau')">Tableau Calculation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'diff')">Tableau ↔ Power BI</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'sql')">SQL Validation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'tests')">Test Cases</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-1', 'mcp')">AI / MCP JSON</button>
+            </div>
+
+            <div class="tab-content-panel active" id="eservice-ekyc-1-tab-math">
+              <div class="formula-grid">
+                <div class="formula-left">
+                  <div class="formula-desc"><strong>Định nghĩa Nghiệp vụ:</strong> Xác định khách hàng khởi tạo hồ sơ eKYC ("Kênh mở") và khách hàng hoàn tất kích hoạt tài khoản ("Kênh kích hoạt") trên nền tảng App hay Web, phục vụ đánh giá hiệu quả từng kênh số.</div>
+                  <div class="math-card">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Công Thức Nghiệp Vụ (MathJax LaTeX):</div>
+                    <div>$$\text{Kênh mở} = \begin{cases} \text{"App"} & \text{open_platform} = \text{"A"} \\ \text{"Web"} & \text{open_platform} = \text{"W"} \end{cases} \qquad \text{Kênh kích hoạt} = \begin{cases} \text{"App"} & \text{active_platform} = \text{"A"} \\ \text{"Web"} & \text{active_platform} = \text{"W"} \end{cases}$$</div>
+                  </div>
+                  <ul class="math-bullets">
+                    <li><strong>open_platform:</strong> nền tảng khách hàng dùng để <em>khởi tạo</em> hồ sơ eKYC.</li>
+                    <li><strong>active_platform:</strong> nền tảng khách hàng dùng để <em>hoàn tất kích hoạt</em> (có thể khác kênh mở nếu khách chuyển từ App sang Web hoặc ngược lại giữa chừng).</li>
+                  </ul>
+                </div>
+                <div class="formula-right">
+                  <details class="example-details" open>
+                    <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa</summary>
+                    <div class="example-content">
+                      <p class="example-problem">Bản ghi tracking có <code>open_platform = 'A'</code>, <code>active_platform = 'W'</code>.</p>
+                      <div class="calc-steps">
+                        <div class="calc-step">Kênh mở = "App" (khởi tạo hồ sơ trên App)</div>
+                        <div class="calc-step">Kênh kích hoạt = "Web" (hoàn tất xác thực trên Web)</div>
+                        <div class="calc-result">Ghi nhận: khách hàng chuyển kênh giữa hành trình mở TK</div>
+                      </div>
+                      <div class="example-output">
+                        <span class="example-output-label">Kết quả hiển thị:</span>
+                        <span class="example-output-value">Kênh mở: App / Kênh kích hoạt: Web</span>
+                      </div>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-data">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                <div>
+                  <h4 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Nguồn Dữ Liệu &amp; Thuộc Tính</h4>
+                  <div class="dynamic-ui-box" style="margin: 0; background: var(--bg-surface);">
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Database:</span><span>datawarehouse (PostgreSQL)</span></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Table:</span><code>mart_mkt.vw_register_tracking</code></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Field:</span><code>open_platform, active_platform</code></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Data Grain:</span><span class="pill pill-purple">1 dòng / 1 lượt cập nhật hồ sơ (custody_id × updated_at)</span></div>
+                  </div>
+                </div>
+                <div>
+                  <h4 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Transformation Pipeline &amp; Filter</h4>
+                  <div class="dynamic-ui-box" style="margin: 0; background: var(--bg-surface);">
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Pipeline:</span><span>Join với realtime.cfmast, realtime.core_registeronline, dim.broker, realtime.tlgroups theo custody_id/broker_id/CAREBY</span></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Filter Behavior:</span><span style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">Từ ngày/Đến ngày (Range Date Parameter): RESPECT | Họ tên/CCCD/SĐT/Email/Số TKGDCK: quick-search Parameter</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-dax">
+              <div class="alert-box warning"><div><strong>Chưa migrate sang Power BI:</strong> Báo cáo eKYC hiện chỉ triển khai trên Tableau, chưa có Semantic Model/DAX tương ứng.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-tableau">
+              <div class="code-container">
+                <div class="code-header"><span>TABLEAU CALCULATED FIELD</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_PLATFORM_CHANNEL_tableau')">Copy Tableau</button></div>
+                <pre class="code-block" id="METRIC_EKYC_PLATFORM_CHANNEL_tableau"><code>// Open_platform define
+if [open_platform] = 'A' then 'App'
+ELSEIF  [open_platform] = 'W' then 'Web' END
+
+// Active_platform define
+IF [active_platform] ='A' then 'App'
+ELSEIF  [active_platform] ='W' then 'Web' END</code></pre>
+              </div>
+              <div class="alert-box info" style="margin-top: 0.75rem;"><div><strong>Giải thích Logic Tableau:</strong> Hai calculated field độc lập (dimension, kiểu string), dùng làm cột phân loại trong bảng chi tiết hành trình mở TKGDCK.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-diff">
+              <div class="alert-box warning"><div><strong>Trạng thái:</strong> Chưa có bản Power BI tương ứng để đối chiếu — báo cáo chỉ tồn tại trên nền tảng Tableau tại thời điểm hiện tại.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-sql">
+              <div class="code-container">
+                <div class="code-header"><span>POSTGRESQL AUDIT &amp; VALIDATION QUERY</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_PLATFORM_CHANNEL_sql')">Copy SQL</button></div>
+                <pre class="code-block" id="METRIC_EKYC_PLATFORM_CHANNEL_sql"><code>SELECT
+  CASE WHEN open_platform = 'A' THEN 'App' WHEN open_platform = 'W' THEN 'Web' END AS kenh_mo,
+  CASE WHEN active_platform = 'A' THEN 'App' WHEN active_platform = 'W' THEN 'Web' END AS kenh_kich_hoat,
+  COUNT(*) AS so_luong
+FROM mart_mkt.vw_register_tracking
+WHERE updated_at::date BETWEEN :tu_ngay AND :den_ngay
+GROUP BY 1, 2
+ORDER BY so_luong DESC;</code></pre>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">* Đối soát số lượng khách hàng theo từng tổ hợp Kênh mở × Kênh kích hoạt trong khoảng ngày lọc trên Tableau.</p>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-tests">
+              <div class="table-container">
+                <table>
+                  <thead><tr><th style="width: 15%;">Test ID</th><th style="width: 35%;">Mô tả Test Case</th><th style="width: 25%;">Input</th><th style="width: 15%;">Expected</th><th style="width: 10%;">Trạng thái</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>TC_EKYC_01</code></td><td>open_platform = 'A'</td><td>Bản ghi tracking</td><td><strong>Kênh mở = "App"</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                    <tr><td><code>TC_EKYC_02</code></td><td>open_platform NULL/khác 'A','W'</td><td>Bản ghi tracking lỗi map</td><td><strong>Kênh mở = NULL (không map)</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-1-tab-mcp">
+              <div class="code-container">
+                <div class="code-header"><span>STANDARDIZED AI / MCP JSON SCHEMA OUTPUT</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_PLATFORM_CHANNEL_mcp_json')">Copy MCP JSON</button></div>
+                <pre class="code-block" id="METRIC_EKYC_PLATFORM_CHANNEL_mcp_json"><code>{
+  "metric_id": "METRIC_EKYC_PLATFORM_CHANNEL",
+  "metric_name": "Phân loại Kênh Mở & Kích hoạt TKGDCK",
+  "business_domain": "EService",
+  "definition": "Xác định khách hàng khởi tạo/kích hoạt hồ sơ eKYC trên nền tảng App hay Web.",
+  "input_fields": "mart_mkt.vw_register_tracking[open_platform], mart_mkt.vw_register_tracking[active_platform]",
+  "grain": "custody_id x updated_at",
+  "source": {
+    "database": "datawarehouse (PostgreSQL)",
+    "table": "mart_mkt.vw_register_tracking",
+    "field": "open_platform, active_platform"
+  },
+  "tableau": {
+    "calculation": "if [open_platform] = 'A' then 'App' ELSEIF [open_platform] = 'W' then 'Web' END",
+    "explanation": "Dimension calculated field dùng phân loại kênh trong bảng chi tiết."
+  },
+  "powerbi": null,
+  "tableau_vs_pbi_difference": "Chưa migrate sang Power BI.",
+  "sql_validation": "SELECT CASE WHEN open_platform='A' THEN 'App' WHEN open_platform='W' THEN 'Web' END AS kenh_mo, COUNT(*) FROM mart_mkt.vw_register_tracking GROUP BY 1;",
+  "status": "COMPLETE"
+}</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Chuẩn hóa Trạng thái Tài khoản eKYC -->
+          <article class="formula-card" id="eservice-ekyc-2" data-domain="EService" data-status="COMPLETE">
+            <div class="formula-title">
+              <div class="formula-title-left">
+                <span class="metric-id-pill">METRIC_EKYC_STATUS_MAPPING</span>
+                <h3>2. Chuẩn hóa Trạng thái Tài khoản eKYC (9 trạng thái)</h3>
+              </div>
+              <div class="formula-badges"><span class="pill pill-success">COMPLETE</span><span class="formula-badge">Status Taxonomy</span></div>
+            </div>
+            <div class="metric-tabs">
+              <button class="metric-tab-btn active" onclick="switchMetricTab('eservice-ekyc-2', 'math')">Nghiệp Vụ &amp; Visual</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'data')">Data &amp; Mapping</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'dax')">Power BI DAX</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'tableau')">Tableau Calculation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'diff')">Tableau ↔ Power BI</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'sql')">SQL Validation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'tests')">Test Cases</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-2', 'mcp')">AI / MCP JSON</button>
+            </div>
+
+            <div class="tab-content-panel active" id="eservice-ekyc-2-tab-math">
+              <div class="formula-grid">
+                <div class="formula-left">
+                  <div class="formula-desc"><strong>Định nghĩa Nghiệp vụ:</strong> Chuẩn hóa mã trạng thái tài khoản CUSTODYCD (bảng <code>realtime.cfmast</code>) từ 9 mã kỹ thuật sang nhãn tiếng Việt dễ đọc cho người dùng cuối.</div>
+                  <div class="math-card">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Bảng Ánh Xạ Trạng Thái (STATUS):</div>
+                    <div>$$\text{STATUS} \rightarrow \{A:\text{Hoạt động}, C:\text{Đóng}, B:\text{Phong tỏa}, R:\text{Từ chối}, E:\text{Yêu cầu làm lại}, N:\text{Chờ đóng}, T:\text{Chờ thay đổi}, G:\text{Thừa kế}, I:\text{Không hoạt động}\}$$</div>
+                  </div>
+                </div>
+                <div class="formula-right">
+                  <details class="example-details" open>
+                    <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa</summary>
+                    <div class="example-content">
+                      <p class="example-problem">Tài khoản có <code>STATUS = 'A'</code> tại <code>realtime.cfmast</code>.</p>
+                      <div class="calc-steps"><div class="calc-result">Trạng thái TKGDCK hiển thị = "Hoạt động"</div></div>
+                      <div class="example-output"><span class="example-output-label">Kết quả:</span><span class="example-output-value">Trạng thái TKGDCK: Hoạt động</span></div>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-data">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                <div>
+                  <h4 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Nguồn Dữ Liệu &amp; Thuộc Tính</h4>
+                  <div class="dynamic-ui-box" style="margin: 0; background: var(--bg-surface);">
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Table:</span><code>realtime.cfmast</code></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Field:</span><code>STATUS</code></div>
+                    <div class="dynamic-ui-item"><span class="dynamic-ui-label">Data Grain:</span><span class="pill pill-purple">1 dòng / CUSTODYCD</span></div>
+                  </div>
+                </div>
+                <div>
+                  <h4 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Bảng tra cứu đầy đủ</h4>
+                  <div class="table-container" style="margin: 0;">
+                    <table><thead><tr><th>Mã</th><th>Nhãn hiển thị</th></tr></thead>
+                    <tbody>
+                      <tr><td><code>A</code></td><td>Hoạt động</td></tr>
+                      <tr><td><code>C</code></td><td>Đóng</td></tr>
+                      <tr><td><code>B</code></td><td>Phong tỏa</td></tr>
+                      <tr><td><code>R</code></td><td>Từ chối</td></tr>
+                      <tr><td><code>E</code></td><td>Yêu cầu làm lại</td></tr>
+                      <tr><td><code>N</code></td><td>Chờ đóng</td></tr>
+                      <tr><td><code>T</code></td><td>Chờ thay đổi</td></tr>
+                      <tr><td><code>G</code></td><td>Thừa kế</td></tr>
+                      <tr><td><code>I</code></td><td>Không hoạt động</td></tr>
+                    </tbody></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-dax">
+              <div class="alert-box warning"><div><strong>Chưa migrate sang Power BI:</strong> Chưa có DAX tương ứng cho báo cáo eKYC.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-tableau">
+              <div class="code-container">
+                <div class="code-header"><span>TABLEAU CALCULATED FIELD</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_STATUS_MAPPING_tableau')">Copy Tableau</button></div>
+                <pre class="code-block" id="METRIC_EKYC_STATUS_MAPPING_tableau"><code>IF      [STATUS] = 'A' THEN 'Hoạt động'
+ELSEIF  [STATUS] = 'C' THEN 'Đóng'
+ELSEIF  [STATUS] = 'B' THEN 'Phong tỏa'
+ELSEIF  [STATUS] = 'R' THEN 'Từ chối'
+ELSEIF  [STATUS] = 'E' THEN 'Yêu cầu làm lại'
+ELSEIF  [STATUS] = 'N' THEN 'Chờ đóng'
+ELSEIF  [STATUS] = 'T' THEN 'Chờ thay đổi'
+ELSEIF  [STATUS] = 'G' THEN 'Thừa kế'
+ELSEIF  [STATUS] = 'I' THEN 'Không hoạt động'
+END</code></pre>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-diff">
+              <div class="alert-box warning"><div><strong>Trạng thái:</strong> Chưa có bản Power BI tương ứng để đối chiếu.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-sql">
+              <div class="code-container">
+                <div class="code-header"><span>POSTGRESQL AUDIT &amp; VALIDATION QUERY</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_STATUS_MAPPING_sql')">Copy SQL</button></div>
+                <pre class="code-block" id="METRIC_EKYC_STATUS_MAPPING_sql"><code>SELECT "STATUS",
+  CASE "STATUS"
+    WHEN 'A' THEN 'Hoạt động' WHEN 'C' THEN 'Đóng' WHEN 'B' THEN 'Phong tỏa'
+    WHEN 'R' THEN 'Từ chối' WHEN 'E' THEN 'Yêu cầu làm lại' WHEN 'N' THEN 'Chờ đóng'
+    WHEN 'T' THEN 'Chờ thay đổi' WHEN 'G' THEN 'Thừa kế' WHEN 'I' THEN 'Không hoạt động'
+  END AS trang_thai, COUNT(*) AS so_luong_tk
+FROM realtime.cfmast
+GROUP BY 1, 2
+ORDER BY so_luong_tk DESC;</code></pre>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-tests">
+              <div class="table-container">
+                <table><thead><tr><th style="width: 15%;">Test ID</th><th style="width: 35%;">Mô tả</th><th style="width: 25%;">Input</th><th style="width: 15%;">Expected</th><th style="width: 10%;">Trạng thái</th></tr></thead>
+                <tbody>
+                  <tr><td><code>TC_EKYC_03</code></td><td>STATUS = 'B'</td><td>CUSTODYCD bị khóa</td><td><strong>"Phong tỏa"</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                  <tr><td><code>TC_EKYC_04</code></td><td>STATUS ngoài 9 mã đã định nghĩa</td><td>Mã lạ chưa cập nhật</td><td><strong>NULL (rơi vào ELSE ngầm định)</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                </tbody></table>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-2-tab-mcp">
+              <div class="code-container">
+                <div class="code-header"><span>STANDARDIZED AI / MCP JSON SCHEMA OUTPUT</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_STATUS_MAPPING_mcp_json')">Copy MCP JSON</button></div>
+                <pre class="code-block" id="METRIC_EKYC_STATUS_MAPPING_mcp_json"><code>{
+  "metric_id": "METRIC_EKYC_STATUS_MAPPING",
+  "metric_name": "Chuẩn hóa Trạng thái Tài khoản eKYC",
+  "business_domain": "EService",
+  "definition": "Ánh xạ 9 mã trạng thái CUSTODYCD sang nhãn tiếng Việt.",
+  "input_fields": "realtime.cfmast[STATUS]",
+  "mapping": {"A": "Hoạt động", "C": "Đóng", "B": "Phong tỏa", "R": "Từ chối", "E": "Yêu cầu làm lại", "N": "Chờ đóng", "T": "Chờ thay đổi", "G": "Thừa kế", "I": "Không hoạt động"},
+  "source": {"database": "datawarehouse (PostgreSQL)", "table": "realtime.cfmast", "field": "STATUS"},
+  "powerbi": null,
+  "tableau_vs_pbi_difference": "Chưa migrate sang Power BI.",
+  "status": "COMPLETE"
+}</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Chuẩn hóa Bước Hành trình Mở TKGDCK -->
+          <article class="formula-card" id="eservice-ekyc-3" data-domain="EService" data-status="COMPLETE">
+            <div class="formula-title">
+              <div class="formula-title-left">
+                <span class="metric-id-pill">METRIC_EKYC_JOURNEY_STEP</span>
+                <h3>3. Chuẩn hóa Bước Hành trình Mở TKGDCK (Step Format)</h3>
+              </div>
+              <div class="formula-badges"><span class="pill pill-success">COMPLETE</span><span class="formula-badge">Funnel Step</span></div>
+            </div>
+            <div class="metric-tabs">
+              <button class="metric-tab-btn active" onclick="switchMetricTab('eservice-ekyc-3', 'math')">Nghiệp Vụ &amp; Visual</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'data')">Data &amp; Mapping</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'dax')">Power BI DAX</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'tableau')">Tableau Calculation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'diff')">Tableau ↔ Power BI</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'sql')">SQL Validation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'tests')">Test Cases</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-3', 'mcp')">AI / MCP JSON</button>
+            </div>
+
+            <div class="tab-content-panel active" id="eservice-ekyc-3-tab-math">
+              <div class="formula-grid">
+                <div class="formula-left">
+                  <div class="formula-desc"><strong>Định nghĩa Nghiệp vụ:</strong> Chuẩn hóa số thứ tự bước (step) trong hành trình eKYC thành mã có độ dài cố định (B01, B02, ..., B10, B11...) để sắp xếp đúng thứ tự alphabet trên biểu đồ funnel.</div>
+                  <div class="math-card">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Công Thức:</div>
+                    <div>$$\text{Step_format} = \begin{cases} \text{"B0"} + \text{step} & \text{step} \lt 10 \\ \text{"B"} + \text{step} & \text{step} \ge 10 \end{cases}$$</div>
+                  </div>
+                  <ul class="math-bullets"><li>Việc thêm số "0" đệm giúp Tableau/Power BI sắp xếp đúng theo thứ tự chuỗi (string sort) thay vì bị lệch thứ tự (B1, B10, B2, B3...).</li></ul>
+                </div>
+                <div class="formula-right">
+                  <details class="example-details" open>
+                    <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa</summary>
+                    <div class="example-content">
+                      <p class="example-problem">Bản ghi có <code>step = 3</code>.</p>
+                      <div class="calc-steps"><div class="calc-step">3 &lt; 10 → "B0" + "3"</div><div class="calc-result">Step_format = "B03"</div></div>
+                      <div class="example-output"><span class="example-output-label">Kết quả:</span><span class="example-output-value">Hành trình mở TKGDCK: B03</span></div>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-data">
+              <div class="dynamic-ui-box" style="margin: 0; background: var(--bg-surface);">
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Table:</span><code>mart_mkt.vw_register_tracking</code></div>
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Field:</span><code>step</code></div>
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Sử dụng:</span><span>Trục ngang biểu đồ funnel hành trình mở TKGDCK, kết hợp STT = INDEX() để đánh số dòng trong bảng chi tiết.</span></div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-dax">
+              <div class="alert-box warning"><div><strong>Chưa migrate sang Power BI.</strong></div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-tableau">
+              <div class="code-container">
+                <div class="code-header"><span>TABLEAU CALCULATED FIELD</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_JOURNEY_STEP_tableau')">Copy Tableau</button></div>
+                <pre class="code-block" id="METRIC_EKYC_JOURNEY_STEP_tableau"><code>IF [step] &lt; 10 then 'B0' + str([step]) else
+'B'+
+str([step]) END
+
+// STT đánh số dòng (Table calc)
+INDEX()</code></pre>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-diff">
+              <div class="alert-box warning"><div><strong>Trạng thái:</strong> Chưa có bản Power BI tương ứng để đối chiếu.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-sql">
+              <div class="code-container">
+                <div class="code-header"><span>POSTGRESQL AUDIT &amp; VALIDATION QUERY</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_JOURNEY_STEP_sql')">Copy SQL</button></div>
+                <pre class="code-block" id="METRIC_EKYC_JOURNEY_STEP_sql"><code>SELECT
+  CASE WHEN step < 10 THEN 'B0' || step::text ELSE 'B' || step::text END AS step_format,
+  COUNT(*) AS so_luong
+FROM mart_mkt.vw_register_tracking
+GROUP BY 1
+ORDER BY 1;</code></pre>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-tests">
+              <div class="table-container">
+                <table><thead><tr><th style="width: 15%;">Test ID</th><th style="width: 35%;">Mô tả</th><th style="width: 25%;">Input</th><th style="width: 15%;">Expected</th><th style="width: 10%;">Trạng thái</th></tr></thead>
+                <tbody>
+                  <tr><td><code>TC_EKYC_05</code></td><td>step = 9 (biên dưới 10)</td><td>step = 9</td><td><strong>"B09"</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                  <tr><td><code>TC_EKYC_06</code></td><td>step = 10 (biên trên)</td><td>step = 10</td><td><strong>"B10"</strong> (không đệm số 0)</td><td><span class="pill pill-success">PASS</span></td></tr>
+                </tbody></table>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-3-tab-mcp">
+              <div class="code-container">
+                <div class="code-header"><span>STANDARDIZED AI / MCP JSON SCHEMA OUTPUT</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_JOURNEY_STEP_mcp_json')">Copy MCP JSON</button></div>
+                <pre class="code-block" id="METRIC_EKYC_JOURNEY_STEP_mcp_json"><code>{
+  "metric_id": "METRIC_EKYC_JOURNEY_STEP",
+  "metric_name": "Chuẩn hóa Bước Hành trình Mở TKGDCK",
+  "business_domain": "EService",
+  "definition": "Chuẩn hóa số bước (step) thành mã B0x có độ dài cố định để sắp xếp đúng thứ tự funnel.",
+  "input_fields": "mart_mkt.vw_register_tracking[step]",
+  "powerbi": null,
+  "tableau_vs_pbi_difference": "Chưa migrate sang Power BI.",
+  "status": "COMPLETE"
+}</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Quy tắc Ưu tiên Nguồn Định danh Khách hàng (Identity Fallback) -->
+          <article class="formula-card" id="eservice-ekyc-4" data-domain="EService" data-status="COMPLETE">
+            <div class="formula-title">
+              <div class="formula-title-left">
+                <span class="metric-id-pill">METRIC_EKYC_IDENTITY_FALLBACK</span>
+                <h3>4. Quy tắc Ưu tiên Nguồn Thông tin Định danh Khách hàng (Identity Fallback)</h3>
+              </div>
+              <div class="formula-badges"><span class="pill pill-success">COMPLETE</span><span class="formula-badge">Data Reconciliation</span></div>
+            </div>
+            <div class="metric-tabs">
+              <button class="metric-tab-btn active" onclick="switchMetricTab('eservice-ekyc-4', 'math')">Nghiệp Vụ &amp; Visual</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'data')">Data &amp; Mapping</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'dax')">Power BI DAX</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'tableau')">Tableau Calculation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'diff')">Tableau ↔ Power BI</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'sql')">SQL Validation</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'tests')">Test Cases</button>
+              <button class="metric-tab-btn" onclick="switchMetricTab('eservice-ekyc-4', 'mcp')">AI / MCP JSON</button>
+            </div>
+
+            <div class="tab-content-panel active" id="eservice-ekyc-4-tab-math">
+              <div class="formula-grid">
+                <div class="formula-left">
+                  <div class="formula-desc"><strong>Định nghĩa Nghiệp vụ:</strong> Khi hồ sơ tracking (đang mở/chưa hoàn tất) có <code>custody_id</code> chưa khớp với mã tài khoản chính thức trên Core (<code>CUSTODYCD</code>), hệ thống ưu tiên lấy Họ tên/CCCD/Email/SĐT từ bảng tracking (dữ liệu khách vừa nhập); ngược lại lấy từ Core (dữ liệu đã xác thực).</div>
+                  <div class="math-card">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Công Thức (áp dụng cho Họ tên, CCCD, Email, SĐT, Số TKGDCK):</div>
+                    <div>$$\text{Giá trị hiển thị} = \begin{cases} \text{giá trị từ Tracking} & \text{custody_id IS NULL OR custody_id} \ne \text{CUSTODYCD} \\ \text{giá trị từ Core (cfmast)} & \text{ngược lại} \end{cases}$$</div>
+                  </div>
+                </div>
+                <div class="formula-right">
+                  <details class="example-details" open>
+                    <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa</summary>
+                    <div class="example-content">
+                      <p class="example-problem">Hồ sơ mới đăng ký, <code>custody_id</code> tracking rỗng (chưa cấp mã), Họ tên nhập tay = "Nguyễn Văn A".</p>
+                      <div class="calc-steps"><div class="calc-step">custody_id IS NULL → điều kiện đúng</div><div class="calc-result">Họ tên hiển thị = "Nguyễn Văn A" (lấy từ Tracking)</div></div>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-data">
+              <div class="dynamic-ui-box" style="margin: 0; background: var(--bg-surface);">
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Source Table:</span><code>mart_mkt.vw_register_tracking (fullname, id_code, email, phone, custody_id)</code></div>
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Fallback Table:</span><code>realtime.cfmast ("FULLNAME", "IDCODE", "EMAIL", "MOBILESMS", "CUSTODYCD")</code></div>
+                <div class="dynamic-ui-item"><span class="dynamic-ui-label">Áp dụng cho:</span><span>fullname, id_code, email, mobile, custody_code</span></div>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-dax">
+              <div class="alert-box warning"><div><strong>Chưa migrate sang Power BI.</strong></div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-tableau">
+              <div class="alert-box info"><div><strong>Ghi chú:</strong> Quy tắc này được xử lý ở tầng SQL (CTE <code>ct2</code>) trước khi nạp vào Tableau, không phải calculated field trong workbook — Tableau chỉ hiển thị trực tiếp các cột đã được chuẩn hóa sẵn (fullname, IDCODE, EMAIL, mobile, custody_code).</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-diff">
+              <div class="alert-box warning"><div><strong>Trạng thái:</strong> Chưa có bản Power BI tương ứng để đối chiếu.</div></div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-sql">
+              <div class="code-container">
+                <div class="code-header"><span>POSTGRESQL SOURCE QUERY (ct2)</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_IDENTITY_FALLBACK_sql')">Copy SQL</button></div>
+                <pre class="code-block" id="METRIC_EKYC_IDENTITY_FALLBACK_sql"><code>SELECT
+  CASE WHEN custody_id IS NULL OR custody_id &lt;&gt; "CUSTODYCD" THEN fullname ELSE "FULLNAME" END AS fullname,
+  CASE WHEN custody_id IS NULL OR custody_id &lt;&gt; "CUSTODYCD" THEN id_code ELSE "IDCODE" END AS idcode,
+  CASE WHEN custody_id IS NULL OR custody_id &lt;&gt; "CUSTODYCD" THEN email ELSE "EMAIL" END AS email,
+  CASE WHEN custody_id IS NULL OR custody_id &lt;&gt; "CUSTODYCD" THEN phone ELSE "MOBILESMS" END AS mobile,
+  CASE WHEN custody_id IS NULL OR custody_id &lt;&gt; "CUSTODYCD" THEN custody_id ELSE "CUSTODYCD" END AS custody_code
+FROM ct1;</code></pre>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">* Trích từ CTE <code>ct2</code> trong <code>ESERVICE_Prod_Eservice_BaocaomotaikhoanquaeKYCv2.sql</code>.</p>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-tests">
+              <div class="table-container">
+                <table><thead><tr><th style="width: 15%;">Test ID</th><th style="width: 35%;">Mô tả</th><th style="width: 25%;">Input</th><th style="width: 15%;">Expected</th><th style="width: 10%;">Trạng thái</th></tr></thead>
+                <tbody>
+                  <tr><td><code>TC_EKYC_07</code></td><td>custody_id = CUSTODYCD (đã khớp Core)</td><td>Tài khoản đã hoàn tất</td><td><strong>Lấy Họ tên/CCCD/Email/SĐT từ Core</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                  <tr><td><code>TC_EKYC_08</code></td><td>custody_id NULL (chưa cấp mã)</td><td>Hồ sơ mới đăng ký</td><td><strong>Lấy từ dữ liệu Tracking nhập tay</strong></td><td><span class="pill pill-success">PASS</span></td></tr>
+                </tbody></table>
+              </div>
+            </div>
+
+            <div class="tab-content-panel" id="eservice-ekyc-4-tab-mcp">
+              <div class="code-container">
+                <div class="code-header"><span>STANDARDIZED AI / MCP JSON SCHEMA OUTPUT</span><button class="copy-code-btn" onclick="copyCode(this, 'METRIC_EKYC_IDENTITY_FALLBACK_mcp_json')">Copy MCP JSON</button></div>
+                <pre class="code-block" id="METRIC_EKYC_IDENTITY_FALLBACK_mcp_json"><code>{
+  "metric_id": "METRIC_EKYC_IDENTITY_FALLBACK",
+  "metric_name": "Quy tắc Ưu tiên Nguồn Thông tin Định danh Khách hàng",
+  "business_domain": "EService",
+  "definition": "Ưu tiên dữ liệu Tracking khi custody_id chưa khớp Core, ngược lại lấy dữ liệu đã xác thực từ Core.",
+  "input_fields": "mart_mkt.vw_register_tracking[custody_id,fullname,id_code,email,phone], realtime.cfmast[CUSTODYCD,FULLNAME,IDCODE,EMAIL,MOBILESMS]",
+  "powerbi": null,
+  "tableau_vs_pbi_difference": "Chưa migrate sang Power BI.",
+  "status": "COMPLETE"
+}</code></pre>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- EService Page 2: Online Client Management -->
+        <div 

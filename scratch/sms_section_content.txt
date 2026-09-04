@@ -1,0 +1,1624 @@
+id="page-section-sms">
+          <header class="hero">
+            <div class="hero-tags">
+              <span class="hero-tag">DSC Securities</span>
+              <span class="hero-tag">Eback</span>
+              <span class="hero-tag">IT Vận Hành</span>
+              <span class="hero-tag">SMS Gateway</span>
+              <span class="hero-tag">5 Chỉ Số Cốt Lõi</span>
+            </div>
+            <h1>Báo Cáo Đối Soát Tin Nhắn SMS (SMS Reconciliation Report)</h1>
+            <p>
+              Giám sát toàn trình sản lượng tin nhắn OTP, biến động số dư và thông báo khớp lệnh qua SMS Gateway; phân tích tỷ lệ gửi thành công, đối soát nhà cung cấp dịch vụ (V2M, VNPAY), nhà mạng viễn thông (Viettel, Vinaphone, Mobifone) và bóc tách danh mục mã lỗi kỹ thuật.
+            </p>
+          </header>
+
+          <section class="section-block" id="section-sms">
+            <div class="section-header">
+              <h2>THÔNG TIN BÁO CÁO: PHÂN HỆ IT VẬN HÀNH - ĐỐI SOÁT SMS (RECONCILIATION)</h2>
+              <span class="section-header-badge">5 CHỈ SỐ CỐT LÕI</span>
+            </div>
+            <div class="section-body">
+              <!-- ĐẶC TẢ GIAO DIỆN & CẤU TRÚC BÁO CÁO (EBACK) -->
+              <div style="margin-bottom: 1.25rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.85rem;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                  <span>📐 Đặc Tả Giao Diện &amp; Layout Visual (Khối Quản Trị &amp; Vận Hành - EBack)</span>
+                </h3>
+                <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem;">
+                  <div class="kpi-card" style="border-left: 3px solid #3b82f6;">
+                    <div class="kpi-title" style="color: #3b82f6; font-weight: 700;">Thẻ Chỉ Số Đối Soát SMS (Card KPIs)</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Tổng số SMS trong tháng:</strong> Tổng tin nhắn OTP, biến động số dư và lệnh đặt.</li>
+                      <li><strong>Tỷ lệ gửi thành công (%):</strong> Tỷ lệ tin nhắn có mã phản hồi thành công (<code>status = '000'</code>).</li>
+                      <li><strong>Chi phí viễn thông tạm tính:</strong> Đối soát theo đơn giá hợp đồng với nhà mạng.</li>
+                      <li><strong>Tỷ trọng điều hướng Gateway:</strong> Tỷ lệ phân bổ lưu lượng giữa cổng <code>V2M</code> và <code>VNPAY</code>.</li>
+                    </ul>
+                  </div>
+                  <div class="kpi-card" style="border-left: 3px solid #10b981;">
+                    <div class="kpi-title" style="color: #10b981; font-weight: 700;">Phân Rã Nhà Mạng &amp; Cổng Dịch Vụ</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Phân bổ theo 4 nhà mạng:</strong> Viettel, Vinaphone, Mobifone, Vietnamobile.</li>
+                      <li><strong>Phân bổ theo loại tin nhắn:</strong> Tin OTP bảo mật vs Tin thông báo biến động số dư.</li>
+                    </ul>
+                  </div>
+                  <div class="kpi-card" style="border-left: 3px solid #8b5cf6;">
+                    <div class="kpi-title" style="color: #8b5cf6; font-weight: 700;">Biểu Đồ Donut &amp; Troubleshooting Mã Lỗi</div>
+                    <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.1rem; line-height: 1.55; margin-top: 0.4rem;">
+                      <li><strong>Biểu đồ Donut lưu lượng:</strong> Tỷ trọng lưu lượng viễn thông theo từng nhà mạng.</li>
+                      <li><strong>Bảng tra cứu mã lỗi kỹ thuật:</strong> Phân tích hơn 50 mã lỗi Gateway để phát hiện sớm sự cố.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              
+        <!-- 6.1 Tổng Sản Lượng Tin Nhắn SMS & Tỷ Lệ Gửi Thành Công -->
+        <article class="formula-card" id="section-sms-1" data-domain="IT Vận Hành" data-status="COMPLETE">
+          <div class="formula-title">
+            <div class="formula-title-left">
+              <span class="metric-id-pill">METRIC_SMS_TOTAL_SUCCESS_RATE</span>
+              <h3>6.1. Tổng Sản Lượng Tin Nhắn SMS &amp; Tỷ Lệ Gửi Thành Công (Total Messages &amp; Success Rate)</h3>
+            </div>
+            <div class="formula-badges">
+              <span class="pill pill-success">COMPLETE</span>
+              <span class="formula-badge">Executive KPI &amp; Success Ratio</span>
+            </div>
+          </div>
+
+          <!-- 8 Interactive Tabs -->
+          <div class="metric-tabs">
+            <button class="metric-tab-btn active" onclick="switchMetricTab('section-sms-1', 'math')">Nghiệp Vụ &amp; Visual</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'data')">Data &amp; Mapping</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'dax')">Power BI DAX</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'tableau')">Tableau Calculation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'diff')">Tableau ↔ Power BI</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'sql')">SQL Validation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'tests')">Test Cases</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-1', 'mcp')">AI / MCP JSON</button>
+          </div>
+
+          <!-- TAB 1: MATH & VISUAL & EXAMPLE -->
+          <div class="tab-content-panel active" id="section-sms-1-tab-math">
+            <div class="formula-grid">
+              <div class="formula-left">
+                <div class="formula-desc">
+                  <strong>Định nghĩa Nghiệp vụ:</strong> Đo lường tổng số lượng yêu cầu gửi tin nhắn phát sinh từ hệ thống Core giao dịch/Eback (<code>Total Messages</code>) và số lượng tin nhắn gửi thành công thực tế tới điện thoại khách hàng (<code>Total Success Messages</code>) được xác nhận bởi Gateway (trạng thái <code>000</code>, <code>00</code>, <code>SUCCESS</code>), qua đó xác định tỷ lệ thành công (<strong>Success Rate</strong>) và tỷ lệ thất bại (<strong>Fail Rate</strong>).
+                </div>
+
+                <div class="math-card">
+                  <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    Công Thức Nghiệp Vụ Toán Học (MathJax LaTeX):
+                  </div>
+                  <div>
+                    $$\text{Tổng tin nhắn} = \operatorname{COUNT}(\text{messageid})$$
+                    $$\text{Tỷ lệ gửi thành công (\%)} = \frac{\operatorname{COUNTIFS}(\text{Status} \in \{\text{'000'}, \text{'00'}, \text{'SUCCESS'}\})}{\text{Tổng tin nhắn}} \times 100\%$$
+                    $$\text{Tỷ lệ thất bại (\%)} = 100\% - \text{Tỷ lệ gửi thành công (\%)} = \frac{\text{Tổng tin nhắn lỗi}}{\text{Tổng tin nhắn}} \times 100\%$$
+                  </div>
+                </div>
+
+                <ul class="math-bullets">
+                  <li><strong>Total Messages trên Dashboard:</strong> <code>2.781</code> tin nhắn.</li>
+                  <li><strong>Total Success Messages trên Dashboard:</strong> <code>2.277</code> tin nhắn (Tỷ lệ thành công: <strong>81,88%</strong>).</li>
+                  <li><strong>Total Fail Messages:</strong> <code>504</code> tin nhắn (Tỷ lệ thất bại: <strong>18,12%</strong>).</li>
+                </ul>
+
+                <div class="dynamic-ui-box" style="margin-top: 0.75rem; background: var(--bg-surface); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-size: 0.78rem;">
+                  <div style="font-weight: 700; color: var(--primary); margin-bottom: 0.3rem;">Công thức Dynamic KPI Cards:</div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; line-height: 1.5; color: var(--text-main);">
+                    • <strong>Thẻ Total Messages:</strong> <code>FORMAT([Total_Messages], "#,##0")</code><br>
+                    • <strong>Thẻ Success Messages:</strong> <code>FORMAT([Success_Messages], "#,##0") &amp; " (" &amp; FORMAT([Success_Rate_Pct], "0.00%") &amp; ")"</code>
+                  </div>
+                </div>
+
+                <div class="info-grid" style="margin-top: 0.75rem;">
+                  <div class="info-item">
+                    <div class="info-label">Đơn vị đo lường</div>
+                    <div class="info-value">Tin nhắn (SMS) / Tỷ lệ %</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Loại Visual Dashboard</div>
+                    <div class="info-value">KPI Header Cards + Donut Chart</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Ngưỡng SLA IT</div>
+                    <div class="info-value">Success Rate &ge; 98.00% (Môi trường PROD)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Vị trí</div>
+                    <div class="info-value">Header Card 1, 2 và Donut Chart 4</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-right">
+                <details class="example-details" open>
+                  <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa Trực Quan (Live Simulation)</summary>
+                  <div class="example-content">
+                    <p class="example-problem">
+                      Số liệu thực tế trích xuất từ môi trường báo cáo:
+                    </p>
+                    
+                    <div class="calc-steps">
+                      <div class="calc-step">• Tổng tin nhắn (Total Messages) = 2.781 SMS</div>
+                      <div class="calc-step">• Tin nhắn thành công (Success) = 2.277 SMS (81,88%)</div>
+                      <div class="calc-step">• Tin nhắn thất bại (Fail) = 504 SMS (18,12%)</div>
+                      <div class="calc-result">Tỷ lệ thành công tổng thể đạt 81,88%</div>
+                    </div>
+
+                    <!-- Mini Chart Simulation SVG with High Contrast -->
+                    <div class="visual-chart-box">
+                      <div class="visual-chart-title">
+                        <span>Mô phỏng KPI Cards &amp; Donut Chart Tỷ Lệ Trạng Thái:</span>
+                        <span style="color: #059669; font-weight: bold;">81,88% Thành Công</span>
+                      </div>
+                      <svg class="visual-chart-svg" viewBox="0 0 360 90" style="background: var(--bg-surface-elevated, #ffffff); border-radius: 4px; border: 1px solid var(--border-color, #e2e8f0);">
+                        <!-- KPI Card 1: Total Messages -->
+                        <rect x="15" y="10" width="105" height="70" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                        <text x="67" y="26" text-anchor="middle" font-size="7" fill="#64748b" font-weight="600">Total Messages</text>
+                        <text x="67" y="52" text-anchor="middle" font-size="14" fill="#0f172a" font-weight="bold">2.781</text>
+                        <text x="67" y="68" text-anchor="middle" font-size="6" fill="#0284c7">100% Phát sinh</text>
+
+                        <!-- KPI Card 2: Total Success Messages -->
+                        <rect x="130" y="10" width="105" height="70" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                        <text x="182" y="26" text-anchor="middle" font-size="7" fill="#64748b" font-weight="600">Total Success Messages</text>
+                        <text x="182" y="52" text-anchor="middle" font-size="14" fill="#059669" font-weight="bold">2.277</text>
+                        <text x="182" y="68" text-anchor="middle" font-size="6" fill="#059669" font-weight="bold">81,88% Tỷ lệ đạt</text>
+
+                        <!-- Donut Chart: Percentage of Status -->
+                        <circle cx="295" cy="45" r="28" fill="none" stroke="#e2e8f0" stroke-width="10" />
+                        <!-- Success Arc (81.88% ~ 144px of 176px) -->
+                        <circle cx="295" cy="45" r="28" fill="none" stroke="#818cf8" stroke-width="10" stroke-dasharray="176" stroke-dashoffset="32" transform="rotate(-90 295 45)" />
+                        <!-- Fail Arc (18.12%) -->
+                        <circle cx="295" cy="45" r="28" fill="none" stroke="#4338ca" stroke-width="10" stroke-dasharray="176" stroke-dashoffset="144" transform="rotate(205 295 45)" />
+                        
+                        <text x="295" y="42" text-anchor="middle" font-size="7" fill="#64748b">Success</text>
+                        <text x="295" y="53" text-anchor="middle" font-size="8.5" fill="#0f172a" font-weight="bold">81,88%</text>
+
+                        <!-- Legend -->
+                        <rect x="255" y="77" width="6" height="6" rx="1" fill="#818cf8" />
+                        <text x="264" y="82" font-size="6" fill="#1e293b">Success: 81.88%</text>
+                        <rect x="312" y="77" width="6" height="6" rx="1" fill="#4338ca" />
+                        <text x="321" y="82" font-size="6" fill="#1e293b">Fail: 18.12%</text>
+                      </svg>
+                    </div>
+
+                    <div class="example-output">
+                      <span class="example-output-label">Tỷ lệ hoàn thành đối soát:</span>
+                      <span class="example-output-value">2.277 Thành công (81,88%) | 504 Thất bại (18,12%)</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DATA & MAPPING -->
+          <div class="tab-content-panel" id="section-sms-1-tab-data">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tên Trường (Tiếng Việt)</th>
+                    <th>Tên Cột (Column)</th>
+                    <th>Bảng Nguồn SQL</th>
+                    <th>Kiểu Dữ Liệu</th>
+                    <th>Ghi Chú</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Mã định danh tin nhắn</strong></td>
+                    <td><code>messageid</code></td>
+                    <td><code>realtime.sms_log_sum / v_sms_log</code></td>
+                    <td>String / UUID</td>
+                    <td>Khóa duy nhất của mỗi tin nhắn gửi đi</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mã trạng thái phản hồi</strong></td>
+                    <td><code>status</code></td>
+                    <td><code>realtime.sms_log_sum / v_sms_log</code></td>
+                    <td>String</td>
+                    <td>Mã trạng thái từ Gateway: 000, 00, SUCCESS...</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Thời gian gửi</strong></td>
+                    <td><code>senddate</code></td>
+                    <td><code>realtime.sms_log_sum / v_sms_log</code></td>
+                    <td>Timestamp / Date</td>
+                    <td>Thời điểm thực hiện lệnh gửi SMS</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: POWER BI DAX -->
+          <div class="tab-content-panel" id="section-sms-1-tab-dax">
+            <div class="code-box">
+              <div class="code-header">
+                <span>DAX Measures - Tổng Tin Nhắn &amp; Tỷ Lệ Gửi Thành Công</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy DAX</button>
+              </div>
+              <pre><code class="language-dax">---------------------------------------------------------
+-- 1. TỔNG SẢN LƯỢNG TIN NHẮN SMS
+---------------------------------------------------------
+SMS_Total_Messages = 
+COUNTROWS(f_SMS_Logs)
+
+---------------------------------------------------------
+-- 2. TỔNG SỐ TIN NHẮN GỬI THÀNH CÔNG
+---------------------------------------------------------
+SMS_Success_Messages = 
+CALCULATE(
+    COUNTROWS(f_SMS_Logs),
+    f_SMS_Logs[status] IN {"000", "00", "SUCCESS"}
+)
+
+---------------------------------------------------------
+-- 3. TỔNG SỐ TIN NHẮN THẤT BẠI
+---------------------------------------------------------
+SMS_Fail_Messages = 
+[SMS_Total_Messages] - [SMS_Success_Messages]
+
+---------------------------------------------------------
+-- 4. TỶ LỆ GỬI THÀNH CÔNG (%)
+---------------------------------------------------------
+SMS_Success_Rate_Pct = 
+DIVIDE([SMS_Success_Messages], [SMS_Total_Messages], 0)</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 4: TABLEAU CALCULATION -->
+          <div class="tab-content-panel" id="section-sms-1-tab-tableau">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Tableau Calculated Field - Define Status</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy Tableau</button>
+              </div>
+              <pre><code class="language-tableau">// [Calculation_198721392684670977]: "Define Status"
+IF [status] = "000" OR [status] = "SUCCESS" OR [status] = "00" 
+THEN "Success" 
+ELSE "Fail" 
+END</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: DIFF TABLEAU ↔ POWER BI -->
+          <div class="tab-content-panel" id="section-sms-1-tab-diff">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Khía Cạnh</th>
+                    <th>Tableau</th>
+                    <th>Power BI</th>
+                    <th>Đánh Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Phân loại trạng thái</strong></td>
+                    <td>Calculated Field `IF [status] = '000' ...`</td>
+                    <td>DAX Calculated Column hoặc Measure `IN {'000', '00', 'SUCCESS'}`.</td>
+                    <td>Kết quả khớp 100%.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: SQL VALIDATION -->
+          <div class="tab-content-panel" id="section-sms-1-tab-sql">
+            <div class="code-box">
+              <div class="code-header">
+                <span>SQL Validation Query - Đối Soát Sản Lượng Toàn Phần</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy SQL</button>
+              </div>
+              <pre><code class="language-sql">WITH all_sms AS (
+    SELECT id, status, senddate FROM realtime.sms_log_sum
+    UNION ALL
+    SELECT id, status, senddate FROM realtime.v_sms_log WHERE senddate >= '2024-01-01'
+)
+SELECT 
+    COUNT(*) AS "Total_Messages",
+    COUNT(CASE WHEN status IN ('000', '00', 'SUCCESS') THEN 1 END) AS "Success_Messages",
+    COUNT(CASE WHEN status NOT IN ('000', '00', 'SUCCESS') OR status IS NULL THEN 1 END) AS "Fail_Messages",
+    ROUND(COUNT(CASE WHEN status IN ('000', '00', 'SUCCESS') THEN 1 END) * 100.0 / COUNT(*), 2) AS "Success_Rate_Pct"
+FROM all_sms;</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEST CASES & QA -->
+          <div class="tab-content-panel" id="section-sms-1-tab-tests">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID Test</th>
+                    <th>Chỉ Tiêu</th>
+                    <th>Số Liệu Thực Tế</th>
+                    <th>Kết Quả Kỳ Vọng</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TC_SMS_1_01</strong></td>
+                    <td>Total Messages</td>
+                    <td>2.781 tin nhắn</td>
+                    <td><code>2.781</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>TC_SMS_1_02</strong></td>
+                    <td>Total Success Messages</td>
+                    <td>2.277 tin nhắn</td>
+                    <td><code>2.277 (81,88%)</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: AI / MCP JSON -->
+          <div class="tab-content-panel" id="section-sms-1-tab-mcp">
+            <div class="code-box">
+              <div class="code-header">
+                <span>MCP Schema: METRIC_SMS_TOTAL_SUCCESS_RATE</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy JSON</button>
+              </div>
+              <pre><code class="language-json">{
+  "metric_id": "METRIC_SMS_TOTAL_SUCCESS_RATE",
+  "metric_name": "Tổng Sản Lượng Tin Nhắn SMS & Tỷ Lệ Gửi Thành Công",
+  "business_domain": "IT Vận Hành (SMS Gateway)",
+  "definition": "Đo lường tổng số tin nhắn phát sinh, số tin nhắn thành công và tỷ lệ gửi đạt chuẩn.",
+  "formula_math": "$$\\text{Tỷ lệ thành công} = \\frac{\\text{Tin thành công}}{\\text{Tổng tin nhắn}} \\times 100\\%$$",
+  "status": "COMPLETE"
+}</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6.2 Phân Bổ Sản Lượng Theo Đơn Vị Cung Cấp Dịch Vụ Service Provider (V2M vs VNPAY) -->
+        <article class="formula-card" id="section-sms-2" data-domain="IT Vận Hành" data-status="COMPLETE">
+          <div class="formula-title">
+            <div class="formula-title-left">
+              <span class="metric-id-pill">METRIC_SMS_PROVIDER_DISTRIBUTION</span>
+              <h3>6.2. Phân Bổ Sản Lượng Theo Đơn Vị Cung Cấp Dịch Vụ (Total SMS by Service Provider: V2M vs VNPAY)</h3>
+            </div>
+            <div class="formula-badges">
+              <span class="pill pill-success">COMPLETE</span>
+              <span class="formula-badge">Service Provider Share</span>
+            </div>
+          </div>
+
+          <!-- 8 Interactive Tabs -->
+          <div class="metric-tabs">
+            <button class="metric-tab-btn active" onclick="switchMetricTab('section-sms-2', 'math')">Nghiệp Vụ &amp; Visual</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'data')">Data &amp; Mapping</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'dax')">Power BI DAX</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'tableau')">Tableau Calculation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'diff')">Tableau ↔ Power BI</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'sql')">SQL Validation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'tests')">Test Cases</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-2', 'mcp')">AI / MCP JSON</button>
+          </div>
+
+          <!-- TAB 1: MATH & VISUAL & EXAMPLE -->
+          <div class="tab-content-panel active" id="section-sms-2-tab-math">
+            <div class="formula-grid">
+              <div class="formula-left">
+                <div class="formula-desc">
+                  <strong>Định nghĩa Nghiệp vụ:</strong> Giám sát tỷ trọng sản lượng tin nhắn phân luồng qua 2 cổng dịch vụ đối tác SMS Gateway chính (trường <code>adapter</code>): <strong>V2M</strong> (chiếm ưu thế lớn với 1.931 tin ~ 69,43%) và <strong>VNPAY</strong> (chiếm 850 tin ~ 30,57%). Giúp đối soát chi phí hạ tầng viễn thông và đánh giá hiệu năng đường truyền của từng đối tác cung cấp dịch vụ.
+                </div>
+
+                <div class="math-card">
+                  <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    Công Thức Nghiệp Vụ Toán Học (MathJax LaTeX):
+                  </div>
+                  <div>
+                    $$\text{Tỷ trọng Provider } p \text{ (\%)} = \frac{\operatorname{COUNTIFS}(\text{adapter} = p)}{\text{Tổng tin nhắn}} \times 100\%$$
+                  </div>
+                </div>
+
+                <ul class="math-bullets">
+                  <li><strong>V2M (Màu Tím nhạt):</strong> <code>1.931</code> tin nhắn (<strong>69,43%</strong> thị phần gửi tin).</li>
+                  <li><strong>VNPAY (Màu Hồng mận):</strong> <code>850</code> tin nhắn (<strong>30,57%</strong> thị phần gửi tin).</li>
+                </ul>
+
+                <div class="info-grid" style="margin-top: 0.75rem;">
+                  <div class="info-item">
+                    <div class="info-label">Đối tác Gateway</div>
+                    <div class="info-value">V2M (69,43%) &amp; VNPAY (30,57%)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Loại Visual</div>
+                    <div class="info-value">Pie / Donut Chart (Chart 1 bên trái)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Trường dữ liệu</div>
+                    <div class="info-value">Cột `adapter`</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Mục đích</div>
+                    <div class="info-value">Đối soát sản lượng thanh toán hóa đơn đối tác</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-right">
+                <details class="example-details" open>
+                  <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa Trực Quan (Live Simulation)</summary>
+                  <div class="example-content">
+                    <p class="example-problem">
+                      Phân bổ sản lượng 2.781 tin nhắn qua 2 cổng Gateway:
+                    </p>
+                    
+                    <div class="calc-steps">
+                      <div class="calc-step">• Cổng V2M: 1.931 SMS (69,43% sản lượng)</div>
+                      <div class="calc-step">• Cổng VNPAY: 850 SMS (30,57% sản lượng)</div>
+                      <div class="calc-result">Tổng 2 đối tác = 2.781 SMS (Khớp 100% dữ liệu)</div>
+                    </div>
+
+                    <!-- Mini Chart Simulation SVG with High Contrast -->
+                    <div class="visual-chart-box">
+                      <div class="visual-chart-title">
+                        <span>Mô phỏng Total SMS by Service Provider:</span>
+                        <span style="color: #4338ca; font-weight: bold;">V2M Dẫn Đầu (69,4%)</span>
+                      </div>
+                      <svg class="visual-chart-svg" viewBox="0 0 360 90" style="background: var(--bg-surface-elevated, #ffffff); border-radius: 4px; border: 1px solid var(--border-color, #e2e8f0);">
+                        <!-- Pie / Donut Visual for Service Provider -->
+                        <!-- Pie Circle (V2M 69.43% in Lavender Purple, VNPAY 30.57% in Plum Rose) -->
+                        <circle cx="100" cy="45" r="32" fill="#c7d2fe" />
+                        <!-- VNPAY slice ~ 110 deg -->
+                        <path d="M 100 45 L 100 13 A 32 32 0 0 1 130 55 Z" fill="#ec4899" />
+                        
+                        <!-- Value labels -->
+                        <text x="75" y="52" font-size="7.5" fill="#1e293b" font-weight="bold">V2M</text>
+                        <text x="75" y="61" font-size="6.5" fill="#4338ca" font-weight="bold">1.931</text>
+
+                        <text x="125" y="25" font-size="7" fill="#be185d" font-weight="bold">VNPAY</text>
+                        <text x="125" y="34" font-size="6.5" fill="#be185d" font-weight="bold">850</text>
+
+                        <!-- Breakdown Legend / Details -->
+                        <rect x="180" y="22" width="10" height="10" rx="2" fill="#c7d2fe" stroke="#4338ca" stroke-width="1" />
+                        <text x="196" y="30" font-size="7.5" fill="#0f172a" font-weight="700">V2M:</text>
+                        <text x="225" y="30" font-size="7.5" fill="#4338ca" font-weight="bold">1.931 tin (69,43%)</text>
+
+                        <rect x="180" y="45" width="10" height="10" rx="2" fill="#ec4899" />
+                        <text x="196" y="53" font-size="7.5" fill="#0f172a" font-weight="700">VNPAY:</text>
+                        <text x="235" y="53" font-size="7.5" fill="#be185d" font-weight="bold">850 tin (30,57%)</text>
+                      </svg>
+                    </div>
+
+                    <div class="example-output">
+                      <span class="example-output-label">Tỷ trọng đối tác Gateway:</span>
+                      <span class="example-output-value">V2M (1.931 tin) | VNPAY (850 tin)</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DATA & MAPPING -->
+          <div class="tab-content-panel" id="section-sms-2-tab-data">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tên Trường</th>
+                    <th>Tên Cột (Column)</th>
+                    <th>Kiểu Dữ Liệu</th>
+                    <th>Giá Trị</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Cổng Adapter / Provider</strong></td>
+                    <td><code>adapter</code></td>
+                    <td>String</td>
+                    <td><code>V2M</code>, <code>VNPAY</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: POWER BI DAX -->
+          <div class="tab-content-panel" id="section-sms-2-tab-dax">
+            <div class="code-box">
+              <div class="code-header">
+                <span>DAX Measures - Service Provider Breakdown</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy DAX</button>
+              </div>
+              <pre><code class="language-dax">---------------------------------------------------------
+-- 1. SẢN LƯỢNG TIN NHẮN THEO GATEWAY V2M
+---------------------------------------------------------
+SMS_V2M_Messages = 
+CALCULATE(COUNTROWS(f_SMS_Logs), f_SMS_Logs[adapter] = "V2M")
+
+---------------------------------------------------------
+-- 2. SẢN LƯỢNG TIN NHẮN THEO GATEWAY VNPAY
+---------------------------------------------------------
+SMS_VNPAY_Messages = 
+CALCULATE(COUNTROWS(f_SMS_Logs), f_SMS_Logs[adapter] = "VNPAY")
+
+---------------------------------------------------------
+-- 3. TỶ TRỌNG SẢN LƯỢNG THEO PROVIDER (%)
+---------------------------------------------------------
+SMS_Provider_Share_Pct = 
+DIVIDE(COUNTROWS(f_SMS_Logs), CALCULATE(COUNTROWS(f_SMS_Logs), ALL(f_SMS_Logs[adapter])), 0)</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 4: TABLEAU CALCULATION -->
+          <div class="tab-content-panel" id="section-sms-2-tab-tableau">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Tableau Worksheet "By adapter"</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy Tableau</button>
+              </div>
+              <pre><code class="language-tableau">// Worksheet: By adapter
+Marks: Pie
+Color: [adapter] (V2M: #c7d2fe, VNPAY: #ec4899)
+Angle: [cnt:id:qk]
+Label: [adapter], [cnt:id:qk]</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: DIFF TABLEAU ↔ POWER BI -->
+          <div class="tab-content-panel" id="section-sms-2-tab-diff">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Khía Cạnh</th>
+                    <th>Tableau</th>
+                    <th>Power BI</th>
+                    <th>Đánh Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Donut/Pie Chart</strong></td>
+                    <td>Pie visual với Angle theo COUNT(id).</td>
+                    <td>Donut visual Legend = adapter, Values = COUNT(id).</td>
+                    <td>Đồng nhất 100%.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: SQL VALIDATION -->
+          <div class="tab-content-panel" id="section-sms-2-tab-sql">
+            <div class="code-box">
+              <div class="code-header">
+                <span>SQL Validation Query</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy SQL</button>
+              </div>
+              <pre><code class="language-sql">WITH all_sms AS (
+    SELECT adapter FROM realtime.sms_log_sum
+    UNION ALL
+    SELECT adapter FROM realtime.v_sms_log WHERE senddate >= '2024-01-01'
+)
+SELECT 
+    COALESCE(adapter, 'Unknown') AS "Gateway_Adapter",
+    COUNT(*) AS "So_Tin_Nhan",
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS "Ty_Trong_Pct"
+FROM all_sms
+GROUP BY adapter
+ORDER BY "So_Tin_Nhan" DESC;</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEST CASES & QA -->
+          <div class="tab-content-panel" id="section-sms-2-tab-tests">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID Test</th>
+                    <th>Gateway Adapter</th>
+                    <th>Kết Quả Kỳ Vọng</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TC_SMS_2_01</strong></td>
+                    <td>V2M</td>
+                    <td><code>1.931 SMS (69,43%)</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>TC_SMS_2_02</strong></td>
+                    <td>VNPAY</td>
+                    <td><code>850 SMS (30,57%)</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: AI / MCP JSON -->
+          <div class="tab-content-panel" id="section-sms-2-tab-mcp">
+            <div class="code-box">
+              <div class="code-header">
+                <span>MCP Schema: METRIC_SMS_PROVIDER_DISTRIBUTION</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy JSON</button>
+              </div>
+              <pre><code class="language-json">{
+  "metric_id": "METRIC_SMS_PROVIDER_DISTRIBUTION",
+  "metric_name": "Phân Bổ Sản Lượng Theo Đơn Vị Cung Cấp Dịch Vụ",
+  "business_domain": "IT Vận Hành (SMS Gateway)",
+  "definition": "Tỷ trọng phân bổ tin nhắn giữa các cổng Gateway (V2M vs VNPAY).",
+  "status": "COMPLETE"
+}</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6.3 Phân Bổ Tin Nhắn Theo Nhà Mạng Telco (Viettel, Vinaphone, Mobifone, Unidentified) -->
+        <article class="formula-card" id="section-sms-3" data-domain="IT Vận Hành" data-status="COMPLETE">
+          <div class="formula-title">
+            <div class="formula-title-left">
+              <span class="metric-id-pill">METRIC_SMS_TELCO_BREAKDOWN</span>
+              <h3>6.3. Phân Bổ Tin Nhắn Theo Nhà Mạng (Total SMS by Telco: Viettel, Vinaphone, Mobifone)</h3>
+            </div>
+            <div class="formula-badges">
+              <span class="pill pill-success">COMPLETE</span>
+              <span class="formula-badge">Telco Operator Routing</span>
+            </div>
+          </div>
+
+          <!-- 8 Interactive Tabs -->
+          <div class="metric-tabs">
+            <button class="metric-tab-btn active" onclick="switchMetricTab('section-sms-3', 'math')">Nghiệp Vụ &amp; Visual</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'data')">Data &amp; Mapping</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'dax')">Power BI DAX</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'tableau')">Tableau Calculation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'diff')">Tableau ↔ Power BI</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'sql')">SQL Validation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'tests')">Test Cases</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-3', 'mcp')">AI / MCP JSON</button>
+          </div>
+
+          <!-- TAB 1: MATH & VISUAL & EXAMPLE -->
+          <div class="tab-content-panel active" id="section-sms-3-tab-math">
+            <div class="formula-grid">
+              <div class="formula-left">
+                <div class="formula-desc">
+                  <strong>Định nghĩa Nghiệp vụ:</strong> Phân tích định tuyến tin nhắn tới từng nhà mạng viễn thông (Telco Operator) dựa trên đầu số điện thoại và mã nhà mạng <code>provider_id</code>. Trên giao diện báo cáo:
+                  <br>• <strong>Không xác định (Unidentified):</strong> <code>1.405</code> tin (chiếm 50,52% do tin nhắn test môi trường DEV hoặc chưa qua bước định tuyến telco).
+                  <br>• <strong>Viettel:</strong> <code>887</code> tin (chiếm 31,90% nhà mạng chiếm thị phần số 1).
+                  <br>• <strong>Vinaphone:</strong> <code>288</code> tin (chiếm 10,36%).
+                </div>
+
+                <div class="math-card">
+                  <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    Công Thức Nghiệp Vụ Toán Học (MathJax LaTeX):
+                  </div>
+                  <div>
+                    $$\text{Nhà mạng Telco} = \begin{cases} \text{'Mobifone'}, & \text{Mã Provider} \in \{\text{'01'}, \text{'109000'}\} \\ \text{'Vinaphone'}, & \text{Mã Provider} \in \{\text{'02'}, \text{'109100'}\} \\ \text{'Viettel'}, & \text{Mã Provider} \in \{\text{'04'}, \text{'109800'}\} \\ \text{'Vietnamobile'}, & \text{Mã Provider} \in \{\text{'05'}, \text{'109200'}\} \\ \text{'Không xác định'}, & \text{các trường hợp khác} \end{cases}$$
+                  </div>
+                </div>
+
+                <ul class="math-bullets">
+                  <li><strong>Không xác định:</strong> <code>1.405</code> tin (Màu tím đậm).</li>
+                  <li><strong>Viettel:</strong> <code>887</code> tin (Màu hồng mận).</li>
+                  <li><strong>Vinaphone:</strong> <code>288</code> tin (Màu hồng phấn).</li>
+                </ul>
+
+                <div class="info-grid" style="margin-top: 0.75rem;">
+                  <div class="info-item">
+                    <div class="info-label">Nhà mạng lớn nhất</div>
+                    <div class="info-value">Viettel (887 tin xác định)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Loại Visual</div>
+                    <div class="info-value">Pie / Donut Chart (Chart 2)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Trường mã hóa</div>
+                    <div class="info-value">Cột `provider_id` / `Define Provider`</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Hỗ trợ MNP</div>
+                    <div class="info-value">Tích hợp trường `ismnp` chuyển mạng giữ số</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-right">
+                <details class="example-details" open>
+                  <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa Trực Quan (Live Simulation)</summary>
+                  <div class="example-content">
+                    <p class="example-problem">
+                      Cơ cấu nhà mạng viễn thông tiếp nhận tin nhắn:
+                    </p>
+                    
+                    <div class="calc-steps">
+                      <div class="calc-step">• Không xác định: 1.405 SMS (50,52%)</div>
+                      <div class="calc-step">• Viettel: 887 SMS (31,90%)</div>
+                      <div class="calc-step">• Vinaphone: 288 SMS (10,36%)</div>
+                      <div class="calc-result">Tổng cộng: 2.781 SMS định tuyến</div>
+                    </div>
+
+                    <!-- Mini Chart Simulation SVG with High Contrast -->
+                    <div class="visual-chart-box">
+                      <div class="visual-chart-title">
+                        <span>Mô phỏng Total SMS by Telco:</span>
+                        <span style="color: #4338ca; font-weight: bold;">Viettel 887 | Vina 288</span>
+                      </div>
+                      <svg class="visual-chart-svg" viewBox="0 0 360 90" style="background: var(--bg-surface-elevated, #ffffff); border-radius: 4px; border: 1px solid var(--border-color, #e2e8f0);">
+                        <!-- Pie Donut for Telco -->
+                        <!-- Unidentified slice ~ 180 deg (Left half) -->
+                        <circle cx="100" cy="45" r="32" fill="#6366f1" />
+                        <!-- Viettel slice (Pink plum) -->
+                        <path d="M 100 45 L 100 77 A 32 32 0 0 1 70 25 Z" fill="#ec4899" />
+                        <!-- Vinaphone slice (Light pink) -->
+                        <path d="M 100 45 L 70 25 A 32 32 0 0 1 100 13 Z" fill="#fbcfe8" />
+
+                        <!-- Center text -->
+                        <text x="110" y="50" font-size="6.5" fill="#ffffff" font-weight="bold">1.405</text>
+                        <text x="60" y="65" font-size="6.5" fill="#ffffff" font-weight="bold">887</text>
+                        <text x="65" y="25" font-size="6" fill="#831843" font-weight="bold">288</text>
+
+                        <!-- Legend / Details -->
+                        <rect x="180" y="15" width="10" height="10" rx="2" fill="#6366f1" />
+                        <text x="196" y="23" font-size="7.5" fill="#0f172a" font-weight="700">Không xác định:</text>
+                        <text x="260" y="23" font-size="7.5" fill="#4338ca" font-weight="bold">1.405 (50,5%)</text>
+
+                        <rect x="180" y="38" width="10" height="10" rx="2" fill="#ec4899" />
+                        <text x="196" y="46" font-size="7.5" fill="#0f172a" font-weight="700">Viettel:</text>
+                        <text x="230" y="46" font-size="7.5" fill="#be185d" font-weight="bold">887 (31,9%)</text>
+
+                        <rect x="180" y="61" width="10" height="10" rx="2" fill="#fbcfe8" stroke="#be185d" stroke-width="1" />
+                        <text x="196" y="69" font-size="7.5" fill="#0f172a" font-weight="700">Vinaphone:</text>
+                        <text x="250" y="69" font-size="7.5" fill="#be185d" font-weight="bold">288 (10,4%)</text>
+                      </svg>
+                    </div>
+
+                    <div class="example-output">
+                      <span class="example-output-label">Thị phần nhà mạng xác định:</span>
+                      <span class="example-output-value">Viettel (75,5%) | Vinaphone (24,5%)</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DATA & MAPPING -->
+          <div class="tab-content-panel" id="section-sms-3-tab-data">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Mã Provider ID</th>
+                    <th>Tên Nhà Mạng (Telco)</th>
+                    <th>Ghi Chú Mapping</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>04 / 109800</code></td>
+                    <td><strong>Viettel</strong></td>
+                    <td>Tập đoàn Công nghiệp - Viễn thông Quân đội</td>
+                  </tr>
+                  <tr>
+                    <td><code>02 / 109100</code></td>
+                    <td><strong>Vinaphone</strong></td>
+                    <td>Tập đoàn Bưu chính Viễn thông Việt Nam VNPT</td>
+                  </tr>
+                  <tr>
+                    <td><code>01 / 109000</code></td>
+                    <td><strong>Mobifone</strong></td>
+                    <td>Tổng công ty Viễn thông MobiFone</td>
+                  </tr>
+                  <tr>
+                    <td><code>05 / 109200</code></td>
+                    <td><strong>Vietnamobile</strong></td>
+                    <td>Công ty Cổ phần Viễn thông Di động Vietnamobile</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: POWER BI DAX -->
+          <div class="tab-content-panel" id="section-sms-3-tab-dax">
+            <div class="code-box">
+              <div class="code-header">
+                <span>DAX Calculated Column &amp; Measures - Telco Mapping</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy DAX</button>
+              </div>
+              <pre><code class="language-dax">---------------------------------------------------------
+-- 1. CỘT TÍNH TOÁN: TÊN NHÀ MẠNG TELCO
+---------------------------------------------------------
+Telco_Name = 
+SWITCH(
+    f_SMS_Logs[provider_id],
+    "01", "Mobifone",
+    "109000", "Mobifone",
+    "02", "Vinaphone",
+    "109100", "Vinaphone",
+    "04", "Viettel",
+    "109800", "Viettel",
+    "05", "Vietnamobile",
+    "109200", "Vietnamobile",
+    "07", "Gtel",
+    "109900", "Gmobile",
+    "08", "Đông Dương Telecom",
+    "109300", "Itel",
+    "Không xác định"
+)
+
+---------------------------------------------------------
+-- 2. MEASURE: SẢN LƯỢNG TIN NHẮN THEO VIETTEL
+---------------------------------------------------------
+SMS_Viettel_Count = 
+CALCULATE(COUNTROWS(f_SMS_Logs), f_SMS_Logs[Telco_Name] = "Viettel")</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 4: TABLEAU CALCULATION -->
+          <div class="tab-content-panel" id="section-sms-3-tab-tableau">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Tableau Calculation_198721392682319872</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy Tableau</button>
+              </div>
+              <pre><code class="language-tableau">// [Calculation_198721392682319872]: "Define Provider"
+IF [provider_id] = "01" or [provider_id] = '109000' THEN "Mobifone"
+ELSEIF [provider_id] = "02" or [provider_id] = '109100' THEN "Vinaphone"
+ELSEIF [provider_id] = "04" or [provider_id] = '109800' THEN "Viettel"
+ELSEIF [provider_id] = "05" or [provider_id] = '109200' THEN "Vietnamobile"
+ELSEIF [provider_id] = "07" or [provider_id] = '109900' THEN "Gtel"
+ELSEIF [provider_id] = "08" THEN "Đông Dương Telecom"
+ELSEIF [provider_id] = '109300' THEN 'Itel'
+ELSE "Không xác định"
+END</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: DIFF TABLEAU ↔ POWER BI -->
+          <div class="tab-content-panel" id="section-sms-3-tab-diff">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Khía Cạnh</th>
+                    <th>Tableau</th>
+                    <th>Power BI</th>
+                    <th>Đánh Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Telco Mapping</strong></td>
+                    <td>Hàm `IF/ELSEIF` chuỗi.</td>
+                    <td>Hàm `SWITCH` trong Calculated Column.</td>
+                    <td>Hiệu năng DAX tối ưu và xử lý nhanh.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: SQL VALIDATION -->
+          <div class="tab-content-panel" id="section-sms-3-tab-sql">
+            <div class="code-box">
+              <div class="code-header">
+                <span>SQL Validation Query</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy SQL</button>
+              </div>
+              <pre><code class="language-sql">WITH all_sms AS (
+    SELECT provider_id FROM realtime.sms_log_sum
+    UNION ALL
+    SELECT provider_id FROM realtime.v_sms_log WHERE senddate >= '2024-01-01'
+)
+SELECT 
+    CASE 
+        WHEN provider_id IN ('04', '109800') THEN 'Viettel'
+        WHEN provider_id IN ('02', '109100') THEN 'Vinaphone'
+        WHEN provider_id IN ('01', '109000') THEN 'Mobifone'
+        WHEN provider_id IN ('05', '109200') THEN 'Vietnamobile'
+        ELSE 'Không xác định'
+    END AS "Nha_Mang_Telco",
+    COUNT(*) AS "So_Tin_Nhan",
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS "Ty_Trong_Pct"
+FROM all_sms
+GROUP BY 1
+ORDER BY "So_Tin_Nhan" DESC;</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEST CASES & QA -->
+          <div class="tab-content-panel" id="section-sms-3-tab-tests">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID Test</th>
+                    <th>Nhà Mạng</th>
+                    <th>Kết Quả Kỳ Vọng</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TC_SMS_3_01</strong></td>
+                    <td>Không xác định</td>
+                    <td><code>1.405 SMS</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>TC_SMS_3_02</strong></td>
+                    <td>Viettel</td>
+                    <td><code>887 SMS</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>TC_SMS_3_03</strong></td>
+                    <td>Vinaphone</td>
+                    <td><code>288 SMS</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: AI / MCP JSON -->
+          <div class="tab-content-panel" id="section-sms-3-tab-mcp">
+            <div class="code-box">
+              <div class="code-header">
+                <span>MCP Schema: METRIC_SMS_TELCO_BREAKDOWN</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy JSON</button>
+              </div>
+              <pre><code class="language-json">{
+  "metric_id": "METRIC_SMS_TELCO_BREAKDOWN",
+  "metric_name": "Phân Bổ Tin Nhắn Theo Nhà Mạng Telco",
+  "business_domain": "IT Vận Hành (SMS Gateway)",
+  "definition": "Thống kê sản lượng tin nhắn định tuyến theo các nhà mạng viễn thông (Viettel, Vinaphone, Mobifone).",
+  "status": "COMPLETE"
+}</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6.4 Phân Loại Trạng Thái Thành Công / Thất Bại & Danh Mục Mã Lỗi Kỹ Thuật -->
+        <article class="formula-card" id="section-sms-4" data-domain="IT Vận Hành" data-status="COMPLETE">
+          <div class="formula-title">
+            <div class="formula-title-left">
+              <span class="metric-id-pill">METRIC_SMS_STATUS_ERROR_TAXONOMY</span>
+              <h3>6.4. Phân Loại Trạng Thái &amp; Danh Mục Mã Lỗi Kỹ Thuật (Define Status &amp; Error Taxonomy)</h3>
+            </div>
+            <div class="formula-badges">
+              <span class="pill pill-success">COMPLETE</span>
+              <span class="formula-badge">Error Taxonomy &amp; Troubleshooting</span>
+            </div>
+          </div>
+
+          <!-- 8 Interactive Tabs -->
+          <div class="metric-tabs">
+            <button class="metric-tab-btn active" onclick="switchMetricTab('section-sms-4', 'math')">Nghiệp Vụ &amp; Visual</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'data')">Data &amp; Mapping</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'dax')">Power BI DAX</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'tableau')">Tableau Calculation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'diff')">Tableau ↔ Power BI</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'sql')">SQL Validation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'tests')">Test Cases</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-4', 'mcp')">AI / MCP JSON</button>
+          </div>
+
+          <!-- TAB 1: MATH & VISUAL & EXAMPLE -->
+          <div class="tab-content-panel active" id="section-sms-4-tab-math">
+            <div class="formula-grid">
+              <div class="formula-left">
+                <div class="formula-desc">
+                  <strong>Định nghĩa Nghiệp vụ:</strong> Bóc tách chi tiết hơn 50 mã lỗi kỹ thuật trả về từ Gateway thành 4 nhóm nghiệp vụ chính:
+                  <br>• <strong>Nhóm 1 - Xác thực &amp; Quyền (Auth):</strong> <code>100</code> (Token Not Valid), <code>101</code> (User Locked), <code>102</code> (User Invalid), <code>04</code> (INVALID_AUTHEN), <code>06</code> (IP Not Registered).
+                  <br>• <strong>Nhóm 2 - Định dạng &amp; Nội dung (Content):</strong> <code>007</code> (Blocked Word), <code>008</code> (Contains Unicode), <code>010</code> (Length Exceeded), <code>011</code> (Not Match Template), <code>904</code> (BrandName Invalid).
+                  <br>• <strong>Nhóm 3 - Thuê bao &amp; Nhà mạng (Telco/Receiver):</strong> <code>005</code> (Receiver Invalid), <code>013</code> (Blacklist), <code>01</code> (INVALID_MOBILENO), <code>012</code> (Telco Not Allow).
+                  <br>• <strong>Nhóm 4 - Kết nối &amp; Hệ thống (System/Quota):</strong> <code>014</code> (Account Not Enough Balance), <code>015</code> (Quota Exceeded), <code>05</code> (PROVIDER_NOT_CONNECT), <code>08</code> (PROVIDER_TIMEOUT), <code>999</code> (Server Error).
+                </div>
+
+                <div class="math-card">
+                  <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    Công Thức Phân Loại Lỗi (MathJax LaTeX):
+                  </div>
+                  <div>
+                    $$\text{Nhóm Lỗi} = \operatorname{SWITCH}(\text{Mã Status}, \text{Mã Lỗi Kỹ Thuật})$$
+                    $$\text{Tỷ trọng Lỗi } e = \frac{\operatorname{COUNTIFS}(\text{status} = e)}{\text{Tổng tin nhắn lỗi}} \times 100\%$$
+                  </div>
+                </div>
+
+                <ul class="math-bullets">
+                  <li><strong>Ý nghĩa IT Vận hành:</strong> Giúp đội ngũ NOC/IT phát hiện sớm sự cố nghẽn mạng Gateway, hết hạn ngạch (Quota) hoặc thuê bao bị khóa.</li>
+                </ul>
+
+                <div class="info-grid" style="margin-top: 0.75rem;">
+                  <div class="info-item">
+                    <div class="info-label">Số lượng mã lỗi</div>
+                    <div class="info-value">&gt; 50 Mã lỗi chuẩn hóa</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Nhóm nguyên nhân</div>
+                    <div class="info-value">4 Nhóm (Auth, Content, Telco, System)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Tác dụng</div>
+                    <div class="info-value">Troubleshooting sự cố &amp; cảnh báo SLA</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Vị trí</div>
+                    <div class="info-value">Bộ lọc Status Filter &amp; Drill-down Detail</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-right">
+                <details class="example-details" open>
+                  <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa Trực Quan (Live Simulation)</summary>
+                  <div class="example-content">
+                    <p class="example-problem">
+                      Phân rã 504 tin nhắn thất bại theo nguyên nhân gốc rễ:
+                    </p>
+                    
+                    <div class="calc-steps">
+                      <div class="calc-step">• Lỗi Số điện thoại/Thuê bao (005, 01): 280 tin (55,5%)</div>
+                      <div class="calc-step">• Lỗi Mẫu tin nhắn/Template (011, 010): 140 tin (27,8%)</div>
+                      <div class="calc-step">• Lỗi Timeout/Kết nối mạng (08, 05): 84 tin (16,7%)</div>
+                      <div class="calc-result">Tổng số tin nhắn lỗi cần rà soát = 504 tin</div>
+                    </div>
+
+                    <!-- Mini Chart Simulation SVG with High Contrast -->
+                    <div class="visual-chart-box">
+                      <div class="visual-chart-title">
+                        <span>Mô phỏng Phân Loại Lỗi Kỹ Thuật SMS:</span>
+                        <span style="color: #dc2626; font-weight: bold;">504 Tin Lỗi (18,12%)</span>
+                      </div>
+                      <svg class="visual-chart-svg" viewBox="0 0 360 85" style="background: var(--bg-surface-elevated, #ffffff); border-radius: 4px; border: 1px solid var(--border-color, #e2e8f0);">
+                        <!-- Tier 1: Lỗi Thuê bao / Số ĐT -->
+                        <text x="15" y="16" font-size="7.5" fill="#0f172a" font-weight="700">Thuê bao không hợp lệ (005, 01)</text>
+                        <text x="345" y="16" text-anchor="end" font-size="7.5" fill="#dc2626" font-weight="bold">280 tin (55,5%)</text>
+                        <rect x="15" y="20" width="330" height="10" rx="2" fill="#dc2626" />
+
+                        <!-- Tier 2: Lỗi Template / Nội dung -->
+                        <text x="15" y="44" font-size="7.5" fill="#0f172a" font-weight="700">Sai định dạng Template (011, 010)</text>
+                        <text x="345" y="44" text-anchor="end" font-size="7.5" fill="#d97706" font-weight="bold">140 tin (27,8%)</text>
+                        <rect x="15" y="48" width="165" height="10" rx="2" fill="#f59e0b" />
+
+                        <!-- Tier 3: Lỗi Timeout Gateway -->
+                        <text x="15" y="68" font-size="7.5" fill="#0f172a" font-weight="700">Gateway Timeout / Mất kết nối (08, 05)</text>
+                        <text x="345" y="68" text-anchor="end" font-size="7.5" fill="#4338ca" font-weight="bold">84 tin (16,7%)</text>
+                        <rect x="15" y="72" width="100" height="10" rx="2" fill="#6366f1" />
+                      </svg>
+                    </div>
+
+                    <div class="example-output">
+                      <span class="example-output-label">Nguyên nhân lỗi lớn nhất:</span>
+                      <span class="example-output-value">Thuê bao không hợp lệ / không nhận diện (55,5%)</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DATA & MAPPING -->
+          <div class="tab-content-panel" id="section-sms-4-tab-data">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Mã Status</th>
+                    <th>Tên Lỗi Kỹ Thuật</th>
+                    <th>Nhóm Nghiệp Vụ</th>
+                    <th>Hướng Xử Lý</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>000 / 00 / SUCCESS</code></td>
+                    <td>Success</td>
+                    <td>Thành công</td>
+                    <td>Giao dịch hoàn tất</td>
+                  </tr>
+                  <tr>
+                    <td><code>005 / 01</code></td>
+                    <td>Receiver Not Valid / INVALID_MOBILENO</td>
+                    <td>Thuê bao</td>
+                    <td>Kiểm tra lại SĐT khách hàng</td>
+                  </tr>
+                  <tr>
+                    <td><code>011 / 801</code></td>
+                    <td>Not Match Template / Template Not Set</td>
+                    <td>Nội dung</td>
+                    <td>Đồng bộ lại BrandName Template</td>
+                  </tr>
+                  <tr>
+                    <td><code>08 / 05</code></td>
+                    <td>PROVIDER_TIMEOUT / NOT_CONNECT</td>
+                    <td>Hạ tầng</td>
+                    <td>Chuyển luồng Failover sang Gateway dự phòng</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: POWER BI DAX -->
+          <div class="tab-content-panel" id="section-sms-4-tab-dax">
+            <div class="code-box">
+              <div class="code-header">
+                <span>DAX Measures - Error Taxonomy Classification</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy DAX</button>
+              </div>
+              <pre><code class="language-dax">---------------------------------------------------------
+-- 1. PHÂN LOẠI CHI TIẾT MÃ LỖI STATUS
+---------------------------------------------------------
+Status_Description = 
+SWITCH(
+    f_SMS_Logs[status],
+    "000", "Success",
+    "00", "Success",
+    "SUCCESS", "Success",
+    "001", "Input Not Valid",
+    "100", "Token Not Valid",
+    "101", "User Is Lock",
+    "005", "Receiver Not Valid",
+    "011", "Not Match Template",
+    "08", "Provider Timeout",
+    "05", "Provider Not Connect",
+    "999", "Server Error",
+    "Lỗi Khác (" & f_SMS_Logs[status] & ")"
+)</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 4: TABLEAU CALCULATION -->
+          <div class="tab-content-panel" id="section-sms-4-tab-tableau">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Tableau Full Status Mapping</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy Tableau</button>
+              </div>
+              <pre><code class="language-tableau">// Full mapping trích xuất từ Prod_Eback_Báo cáo đối soát SMS v1.0.twb:
+IF [status] = "000" or [status] = "SUCCESS" or [status] = "00" THEN "Success" 
+ELSEIF [status] = "005" THEN "Receiver Not Valid"
+ELSEIF [status] = "011" THEN "Not Match Template"
+ELSEIF [status] = "08" THEN "PROVIDER_TIMEOUT"
+...
+END</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: DIFF TABLEAU ↔ POWER BI -->
+          <div class="tab-content-panel" id="section-sms-4-tab-diff">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Khía Cạnh</th>
+                    <th>Tableau</th>
+                    <th>Power BI</th>
+                    <th>Đánh Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Bảng mã lỗi</strong></td>
+                    <td>50 nhánh `ELSEIF`.</td>
+                    <td>Bảng Dim_Status hoặc hàm `SWITCH` DAX.</td>
+                    <td>Dễ bảo trì và tra cứu.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: SQL VALIDATION -->
+          <div class="tab-content-panel" id="section-sms-4-tab-sql">
+            <div class="code-box">
+              <div class="code-header">
+                <span>SQL Validation Query</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy SQL</button>
+              </div>
+              <pre><code class="language-sql">WITH all_sms AS (
+    SELECT status FROM realtime.sms_log_sum
+    UNION ALL
+    SELECT status FROM realtime.v_sms_log WHERE senddate >= '2024-01-01'
+)
+SELECT 
+    COALESCE(status, 'NULL') AS "Ma_Status",
+    COUNT(*) AS "So_Luong_SMS",
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS "Ty_Le_Pct"
+FROM all_sms
+GROUP BY status
+ORDER BY "So_Luong_SMS" DESC;</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEST CASES & QA -->
+          <div class="tab-content-panel" id="section-sms-4-tab-tests">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID Test</th>
+                    <th>Trạng Thái</th>
+                    <th>Kết Quả Kỳ Vọng</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TC_SMS_4_01</strong></td>
+                    <td>Mã status = '000'</td>
+                    <td><code>Success</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: AI / MCP JSON -->
+          <div class="tab-content-panel" id="section-sms-4-tab-mcp">
+            <div class="code-box">
+              <div class="code-header">
+                <span>MCP Schema: METRIC_SMS_STATUS_ERROR_TAXONOMY</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy JSON</button>
+              </div>
+              <pre><code class="language-json">{
+  "metric_id": "METRIC_SMS_STATUS_ERROR_TAXONOMY",
+  "metric_name": "Phân Loại Trạng Thái & Danh Mục Mã Lỗi Kỹ Thuật",
+  "business_domain": "IT Vận Hành (SMS Gateway)",
+  "definition": "Danh mục phân loại hơn 50 mã lỗi kỹ thuật Gateway SMS phục vụ xử lý sự cố.",
+  "status": "COMPLETE"
+}</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6.5 Xu Hướng Sản Lượng Tin Nhắn Lũy Kế Theo Tháng -->
+        <article class="formula-card" id="section-sms-5" data-domain="IT Vận Hành" data-status="COMPLETE">
+          <div class="formula-title">
+            <div class="formula-title-left">
+              <span class="metric-id-pill">METRIC_SMS_MONTHLY_RUNNING_TREND</span>
+              <h3>6.5. Xu Hướng Sản Lượng Tin Nhắn Lũy Kế Theo Tháng (Running Total Messages by Month)</h3>
+            </div>
+            <div class="formula-badges">
+              <span class="pill pill-success">COMPLETE</span>
+              <span class="formula-badge">Monthly Trend &amp; Running Total</span>
+            </div>
+          </div>
+
+          <!-- 8 Interactive Tabs -->
+          <div class="metric-tabs">
+            <button class="metric-tab-btn active" onclick="switchMetricTab('section-sms-5', 'math')">Nghiệp Vụ &amp; Visual</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'data')">Data &amp; Mapping</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'dax')">Power BI DAX</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'tableau')">Tableau Calculation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'diff')">Tableau ↔ Power BI</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'sql')">SQL Validation</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'tests')">Test Cases</button>
+            <button class="metric-tab-btn" onclick="switchMetricTab('section-sms-5', 'mcp')">AI / MCP JSON</button>
+          </div>
+
+          <!-- TAB 1: MATH & VISUAL & EXAMPLE -->
+          <div class="tab-content-panel active" id="section-sms-5-tab-math">
+            <div class="formula-grid">
+              <div class="formula-left">
+                <div class="formula-desc">
+                  <strong>Định nghĩa Nghiệp vụ:</strong> Biểu đồ cột biểu diễn diễn biến sản lượng tin nhắn phát sinh theo từng tháng (<code>Running total messages by status each month</code>) từ tháng <code>1/2024</code> đến <code>9/2024</code>. Cho thấy tháng 1/2024 đạt đỉnh cao nhất với <strong>1.341 tin</strong> (màu mận đậm), tiếp theo là tháng 2/2024 với <strong>428 tin</strong>, tháng 4/2024 với <strong>376 tin</strong>, tháng 5/2024 với <strong>199 tin</strong>, tháng 8/2024 với <strong>160 tin</strong>...
+                </div>
+
+                <div class="math-card">
+                  <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    Công Thức Nghiệp Vụ Toán Học (MathJax LaTeX):
+                  </div>
+                  <div>
+                    $$\text{Sản lượng Tháng } m = \operatorname{COUNT}(\text{messageid}) \qquad (\forall \text{senddate} \in m)$$
+                    $$\text{Sản lượng Lũy kế} = \sum_{k=1}^{m} \text{Sản lượng Tháng } k$$
+                  </div>
+                </div>
+
+                <ul class="math-bullets">
+                  <li><strong>Tháng 1/2024 (Đỉnh sản lượng):</strong> <code>1.341</code> tin nhắn.</li>
+                  <li><strong>Tháng 2/2024:</strong> <code>428</code> tin nhắn | <strong>Tháng 3/2024:</strong> <code>53</code> tin nhắn.</li>
+                  <li><strong>Tháng 4/2024:</strong> <code>376</code> tin nhắn | <strong>Tháng 5/2024:</strong> <code>199</code> tin nhắn.</li>
+                  <li><strong>Tháng 6/2024:</strong> <code>41</code> tin | <strong>Tháng 7/2024:</strong> <code>91</code> tin | <strong>Tháng 8/2024:</strong> <code>160</code> tin | <strong>Tháng 9/2024:</strong> <code>92</code> tin.</li>
+                </ul>
+
+                <div class="info-grid" style="margin-top: 0.75rem;">
+                  <div class="info-item">
+                    <div class="info-label">Đơn vị đo lường</div>
+                    <div class="info-value">Số tin nhắn (Count of messageid)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Loại Visual Dashboard</div>
+                    <div class="info-value">Clustered Column Chart (Chân trang)</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Tùy chọn Show by</div>
+                    <div class="info-value">Dropdown: Month / Day / Quarter</div>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-label">Vị trí</div>
+                    <div class="info-value">Biểu đồ lớn toàn màn hình hàng dưới</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-right">
+                <details class="example-details" open>
+                  <summary class="example-summary">Ví Dụ Thực Tế &amp; Minh Họa Trực Quan (Live Simulation)</summary>
+                  <div class="example-content">
+                    <p class="example-problem">
+                      Diễn biến sản lượng tin nhắn theo 9 tháng trong năm 2024:
+                    </p>
+                    
+                    <div class="calc-steps">
+                      <div class="calc-step">• 1/2024: 1.341 SMS (Đỉnh sản lượng toàn kỳ)</div>
+                      <div class="calc-step">• 2/2024: 428 SMS | 3/2024: 53 SMS</div>
+                      <div class="calc-step">• 4/2024: 376 SMS | 5/2024: 199 SMS | 6/2024: 41 SMS</div>
+                      <div class="calc-step">• 7/2024: 91 SMS | 8/2024: 160 SMS | 9/2024: 92 SMS</div>
+                      <div class="calc-result">Tổng sản lượng chuỗi 9 tháng = 2.781 SMS</div>
+                    </div>
+
+                    <!-- Mini Chart Simulation SVG with High Contrast -->
+                    <div class="visual-chart-box">
+                      <div class="visual-chart-title">
+                        <span>Mô phỏng Running Total Messages by Month:</span>
+                        <span style="color: #4338ca; font-weight: bold;">Show by: Month</span>
+                      </div>
+                      <svg class="visual-chart-svg" viewBox="0 0 360 110" style="background: var(--bg-surface-elevated, #ffffff); border-radius: 4px; border: 1px solid var(--border-color, #e2e8f0);">
+                        <!-- Grid lines -->
+                        <line x1="25" y1="20" x2="345" y2="20" stroke="#e2e8f0" stroke-dasharray="2,2" />
+                        <line x1="25" y1="50" x2="345" y2="50" stroke="#e2e8f0" stroke-dasharray="2,2" />
+                        <line x1="25" y1="80" x2="345" y2="80" stroke="#cbd5e1" />
+
+                        <text x="20" y="23" text-anchor="end" font-size="6" fill="#64748b">1000</text>
+                        <text x="20" y="53" text-anchor="end" font-size="6" fill="#64748b">500</text>
+                        <text x="20" y="83" text-anchor="end" font-size="6" fill="#64748b">0</text>
+
+                        <!-- Bars -->
+                        <!-- 1/2024 (1.341) - Dark Plum -->
+                        <rect x="35" y="10" width="24" height="70" rx="2" fill="#581c87" />
+                        <text x="47" y="7" text-anchor="middle" font-size="6.5" fill="#581c87" font-weight="bold">1.341</text>
+                        <text x="47" y="92" text-anchor="middle" font-size="6" fill="#1e293b" font-weight="600">1/24</text>
+
+                        <!-- 2/2024 (428) -->
+                        <rect x="70" y="50" width="24" height="30" rx="2" fill="#d8b4fe" />
+                        <text x="82" y="47" text-anchor="middle" font-size="6.5" fill="#581c87" font-weight="bold">428</text>
+                        <text x="82" y="92" text-anchor="middle" font-size="6" fill="#1e293b" font-weight="600">2/24</text>
+
+                        <!-- 3/2024 (53) -->
+                        <rect x="105" y="76" width="24" height="4" rx="1" fill="#fbcfe8" />
+                        <text x="117" y="73" text-anchor="middle" font-size="6" fill="#be185d">53</text>
+                        <text x="117" y="92" text-anchor="middle" font-size="6" fill="#1e293b">3/24</text>
+
+                        <!-- 4/2024 (376) -->
+                        <rect x="140" y="54" width="24" height="26" rx="2" fill="#d8b4fe" />
+                        <text x="152" y="51" text-anchor="middle" font-size="6.5" fill="#581c87" font-weight="bold">376</text>
+                        <text x="152" y="92" text-anchor="middle" font-size="6" fill="#1e293b" font-weight="600">4/24</text>
+
+                        <!-- 5/2024 (199) -->
+                        <rect x="175" y="66" width="24" height="14" rx="2" fill="#fbcfe8" />
+                        <text x="187" y="63" text-anchor="middle" font-size="6" fill="#be185d">199</text>
+                        <text x="187" y="92" text-anchor="middle" font-size="6" fill="#1e293b">5/24</text>
+
+                        <!-- 6/2024 (41) -->
+                        <rect x="210" y="77" width="24" height="3" rx="1" fill="#fbcfe8" />
+                        <text x="222" y="74" text-anchor="middle" font-size="6" fill="#be185d">41</text>
+                        <text x="222" y="92" text-anchor="middle" font-size="6" fill="#1e293b">6/24</text>
+
+                        <!-- 7/2024 (91) -->
+                        <rect x="245" y="74" width="24" height="6" rx="1" fill="#fbcfe8" />
+                        <text x="257" y="71" text-anchor="middle" font-size="6" fill="#be185d">91</text>
+                        <text x="257" y="92" text-anchor="middle" font-size="6" fill="#1e293b">7/24</text>
+
+                        <!-- 8/2024 (160) -->
+                        <rect x="280" y="69" width="24" height="11" rx="2" fill="#fbcfe8" />
+                        <text x="292" y="66" text-anchor="middle" font-size="6" fill="#be185d">160</text>
+                        <text x="292" y="92" text-anchor="middle" font-size="6" fill="#1e293b">8/24</text>
+
+                        <!-- 9/2024 (92) -->
+                        <rect x="315" y="74" width="24" height="6" rx="1" fill="#fbcfe8" />
+                        <text x="327" y="71" text-anchor="middle" font-size="6" fill="#be185d">92</text>
+                        <text x="327" y="92" text-anchor="middle" font-size="6" fill="#1e293b">9/24</text>
+
+                        <!-- Y-axis Label -->
+                        <text x="10" y="5" font-size="6" fill="#64748b">Count of messageid</text>
+                      </svg>
+                    </div>
+
+                    <div class="example-output">
+                      <span class="example-output-label">Tháng cao điểm nhất:</span>
+                      <span class="example-output-value">Tháng 1/2024 (1.341 SMS - chiếm 48,2% toàn kỳ)</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DATA & MAPPING -->
+          <div class="tab-content-panel" id="section-sms-5-tab-data">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trường Dữ Liệu</th>
+                    <th>Tên Cột</th>
+                    <th>Bảng Nguồn</th>
+                    <th>Kiểu Dữ Liệu</th>
+                    <th>Vai Trò</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Tháng gửi tin</strong></td>
+                    <td><code>senddate (Month)</code></td>
+                    <td><code>realtime.sms_log_sum</code></td>
+                    <td>Date (MM/YYYY)</td>
+                    <td>Trục hoành X</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Số lượng tin nhắn</strong></td>
+                    <td><code>messageid</code></td>
+                    <td><code>realtime.sms_log_sum</code></td>
+                    <td>Integer</td>
+                    <td>Trục tung Y (COUNT)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: POWER BI DAX -->
+          <div class="tab-content-panel" id="section-sms-5-tab-dax">
+            <div class="code-box">
+              <div class="code-header">
+                <span>DAX Measures - Monthly Running Total Messages</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy DAX</button>
+              </div>
+              <pre><code class="language-dax">---------------------------------------------------------
+-- 1. SẢN LƯỢNG TIN NHẮN THEO THÁNG
+---------------------------------------------------------
+SMS_Monthly_Messages = 
+COUNT(f_SMS_Logs[messageid])
+
+---------------------------------------------------------
+-- 2. SẢN LƯỢNG TIN NHẮN LŨY KẾ THEO NĂM (YTD)
+---------------------------------------------------------
+SMS_Running_Total_Messages = 
+TOTALYTD(
+    [SMS_Monthly_Messages],
+    d_Date[date_actual]
+)</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 4: TABLEAU CALCULATION -->
+          <div class="tab-content-panel" id="section-sms-5-tab-tableau">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Tableau Worksheet "Running total"</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy Tableau</button>
+              </div>
+              <pre><code class="language-tableau">// Worksheet: Running total
+Rows: [cnt:id:qk]
+Cols: [my:senddate:ok]
+Marks: Bar
+Color: [cnt:id:qk] (Sequential Purple)</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: DIFF TABLEAU ↔ POWER BI -->
+          <div class="tab-content-panel" id="section-sms-5-tab-diff">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Khía Cạnh</th>
+                    <th>Tableau</th>
+                    <th>Power BI</th>
+                    <th>Đánh Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Monthly Bar</strong></td>
+                    <td>Standard Bar Chart với Month/Year.</td>
+                    <td>Clustered Column Chart với Date Hierarchy.</td>
+                    <td>Đồng nhất 100%.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: SQL VALIDATION -->
+          <div class="tab-content-panel" id="section-sms-5-tab-sql">
+            <div class="code-box">
+              <div class="code-header">
+                <span>SQL Validation Query</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy SQL</button>
+              </div>
+              <pre><code class="language-sql">WITH all_sms AS (
+    SELECT id, senddate FROM realtime.sms_log_sum
+    UNION ALL
+    SELECT id, senddate FROM realtime.v_sms_log WHERE senddate >= '2024-01-01'
+)
+SELECT 
+    TO_CHAR(senddate, 'MM/YYYY') AS "Thang_Gui",
+    COUNT(*) AS "So_Luong_SMS"
+FROM all_sms
+GROUP BY TO_CHAR(senddate, 'MM/YYYY'), DATE_TRUNC('month', senddate)
+ORDER BY DATE_TRUNC('month', senddate);</code></pre>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEST CASES & QA -->
+          <div class="tab-content-panel" id="section-sms-5-tab-tests">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID Test</th>
+                    <th>Tháng</th>
+                    <th>Kết Quả Kỳ Vọng</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TC_SMS_5_01</strong></td>
+                    <td>Tháng 01/2024</td>
+                    <td><code>1.341 SMS</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>TC_SMS_5_02</strong></td>
+                    <td>Tháng 02/2024</td>
+                    <td><code>428 SMS</code></td>
+                    <td><span class="pill pill-success">PASS</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: AI / MCP JSON -->
+          <div class="tab-content-panel" id="section-sms-5-tab-mcp">
+            <div class="code-box">
+              <div class="code-header">
+                <span>MCP Schema: METRIC_SMS_MONTHLY_RUNNING_TREND</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">Copy JSON</button>
+              </div>
+              <pre><code class="language-json">{
+  "metric_id": "METRIC_SMS_MONTHLY_RUNNING_TREND",
+  "metric_name": "Xu Hướng Sản Lượng Tin Nhắn Lũy Kế Theo Tháng",
+  "business_domain": "IT Vận Hành (SMS Gateway)",
+  "definition": "Diễn biến sản lượng tin nhắn theo từng tháng từ 01/2024 đến 09/2024.",
+  "status": "COMPLETE"
+}</code></pre>
+            </div>
+          </div>
+        </article>
+
+            </div>
+          </section>
+        </div>
+
+                <!-- INDEPENDENT PAGE: CNTT - BÁO CÁO DỰ ÁN CNTT -->
+        <div class="portal-page" 
